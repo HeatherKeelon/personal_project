@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/register_styles.css">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="title lead">
+        <h1>Registration</h1>
+    </div>
+
+    <div class="container">
+        <form action="/register" method="post">
+            <div>
+                <label for="username">Desired Username: </label>
+                <input id="username" name="username" type="text">
+            </div>
+
+            <div>
+                <label for="email">Your Email: </label>
+                <input id="email" name="email" type="text">
+            </div>
+
+            <div>
+                <label for="team_name">Your Team's Name:</label>
+                <input id="team_name" name="team_name" type="text">
+            </div>
+
+            <div>
+                <label for="password">Your Password: </label>
+                <input id="password" name="password" type="password">
+            </div>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

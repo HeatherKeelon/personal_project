@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/games_styles.css">
+    <script type="text/javascript" src="/vendors/angular.min.js"></script>
+    <script type="text/javascript" src="/vendors/angular-route.min.js"></script>
+    <script type="text/javascript" src="/assets/scripts/app.min.js"></script>
+    <title></title>
+</head>
+<body>
+<div class="wrapper-div" ng-controller="GameController">
+    <header>
+        <h1>Welcome</h1>
+        <h3>Team {{user}}</h3>
+    </header>
+
+    <div class="btn-box">
+        <button class="btn" ng-click="refreshGames()">New Game</button>
+    </div>
+
+    <div ng-repeat="number in currentGame">
+        <game-profile info="number"></game-profile>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>
