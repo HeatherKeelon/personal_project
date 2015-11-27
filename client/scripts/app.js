@@ -3,8 +3,8 @@ var myApp = angular.module("myApp", []);
 myApp.controller('GameController', ['$scope', '$http',  function($scope, $http){
 
     $scope.user = {};
-    $scope.currentGame=["no current games"];
-    $scope.numberGames = currentGame.length;
+    $scope.currentGame=[];
+    $scope.numberGames = $scope.currentGame.length;
 
 
     $scope.getTeam = function(){
@@ -15,15 +15,16 @@ myApp.controller('GameController', ['$scope', '$http',  function($scope, $http){
         });
     };
 
-    //$scope.refreshGames = function(){
-    //    $http.get('/games/refreshGames').then(function(response){
-    //        console.log(response);
-    //        console.log($scope.numberGames);
-    //    });
-    //};
+    $scope.refreshGames = function(){
+        $http.get('/games/refreshGames').then(function(response){
+            console.log("This is current response: ", parseInt(response['data'].game_number));
+            $scope.currentGame.push(parseInt(response['data'].game_number));
+            console.log($scope.numberGames);
+        });
+    };
 
 
     $scope.getTeam();
-
+    $scope.refreshGames();
 
 }]);

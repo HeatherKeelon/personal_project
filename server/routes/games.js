@@ -34,15 +34,32 @@ router.post('/retrieveteam', function(req, res) {
 
 });
 
-//router.get('/refreshGames', function(req, res){
-//    client.query("SELECT users.*, teams.team_name, teams.game_number" /
-//    "FROM users"/
-//    "JOIN teams"/
-//    "ON teams.team_name = users.team_name"/
-//    "WHERE users.id = '" + req.user + "'",
-//    function(err, res){
-//        if (err) console.log(err);
-//        res.send(data);
-//    });
-//});
+router.get('/refreshGames', function(req, res){
+    var gameNumber;
+    console.log("You're in refreshGames");
+    console.log(req.user);
+    pg.connect(connectionString, function(err, client, next) {
+        var query = client.query("SELECT teams.game_number " +
+            "FROM users " +
+            "JOIN teams " +
+            "ON teams.team_name = users.team_name " +
+            "WHERE users.id = '" + req.user + "'");
+
+            query.on('row', function(row){
+                gameNumber = row;
+                console.log(gameNumber);
+            });
+
+        query.on('end', function(){
+            client.end();
+            return res.json(gameNumber);
+        });
+
+        if (err){
+            console.log("Error getting gameNumber", err);
+        }
+    });
+
+
+});
 module.exports = router;
