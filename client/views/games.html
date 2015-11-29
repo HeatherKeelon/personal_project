@@ -17,15 +17,18 @@
     </header>
 
     <div class="btn-box">
-        <button class="btn" ng-click="refreshGames()">New Game</button>
+        <button class="btn" ng-click="newGame()">New Game</button>
     </div>
+
+    <!--<div class="new-game-user" ng-show="clicked" aria-label="Toggle ng-Show">-->
+        <!--<p>{{username}} has created a new game!</p>-->
+    <!--</div>-->
 
     <div ng-repeat="number in currentGame">
         <game-profile info="number"></game-profile>
     </div>
 </div>
 
-</div>
 
 </body>
 </html>

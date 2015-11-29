@@ -10,13 +10,15 @@ var connectionString = process.env.DATABASE_URL   || 'postgres://localhost:5432/
 router.post('/retrieveteam', function(req, res) {
 
     pg.connect(connectionString, function(err, client, next){
+        var team= [];
         var teamname;
         console.log("are you here?");
-        client.query("SELECT team_name FROM users WHERE id='" + req.user + "'",
+        client.query("SELECT username, team_name FROM users WHERE id='" + req.user + "'",
         function(err, response){
-            teamname=(response.rows[0].team_name);
-            console.log("Response.rows 2", response.rows[0].team_name);
-            console.log("This is teamname", teamname);
+            team=(response.rows[0]);
+            teamname=(response.rows[0].team_name)
+            //console.log("team", response.rows[0]);
+            //console.log("This is teamname", teamname);
                  //if (response.rows[0].team_name == undefined){
                  //   console.log("This is teamname again", teamname);
                  //   console.log("Team added");
@@ -26,7 +28,7 @@ router.post('/retrieveteam', function(req, res) {
                         if (err) console.log(err);
                     });
                 //};
-                res.send(teamname);
+                res.send(team);
             }
         );
 
@@ -47,7 +49,6 @@ router.get('/refreshGames', function(req, res){
 
             query.on('row', function(row){
                 gameNumber = row;
-                console.log(gameNumber);
             });
 
         query.on('end', function(){
@@ -60,6 +61,52 @@ router.get('/refreshGames', function(req, res){
         }
     });
 
-
 });
+
+
+router.post('/newGame', function(req, res){
+    console.log("You're in newGame.");
+  pg.connect(connectionString, function(err, client){
+      var gameUpdate = req.body['params'];
+      console.log("This is gameUpdate", gameUpdate);
+      console.log("This is what you are updating ", gameUpdate.numberGames);
+      console.log("This is the team you are updating ", gameUpdate.team_name);
+      client.query("UPDATE teams SET game_number = '" + gameUpdate.numberGames + "' WHERE team_name='" + gameUpdate.team_name + "'",
+          function(err){
+              if (err) console.log(err);
+          });
+  });
+    res.send("Game Count Updated");
+});
+
+router.post('/makeTables', function(req, res){
+    console.log("You are in makeTables");
+    var team = req.body['params']['team_name'];
+    var gamenumber = req.body['params']['game_number'];
+
+    pg.connect(connectionString, function(err, client){
+        client.query("CREATE TABLE " + team + gamenumber + "_characters AS SELECT * FROM main_characters",
+        function(err){
+            if (err) console.log(err);
+        });
+
+        client.query("CREATE TABLE " + team + gamenumber + "_equip AS SELECT * FROM main_equip",
+        function(err){
+            if (err) console.log(err);
+        });
+
+        client.query("CREATE TABLE " + team + gamenumber + "_items AS SELECT * FROM main_items",
+        function(err){
+            if (err) console.log(err);
+        });
+
+        client.query("CREATE TABLE " + team + gamenumber + "_syndrael_skills AS SELECT * FROM main_syndrael_skills",
+        function(err){
+            if (err) console.log(err);
+            });
+    });
+    res.send("Tables Created");
+});
+
+
 module.exports = router;
