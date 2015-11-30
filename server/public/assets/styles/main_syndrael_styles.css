@@ -1,0 +1,82 @@
+body {
+    font-size: 20px;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.wrapper {
+    width: 50%;
+}
+
+.left-side {
+    width: 50%;
+}
+
+.character-symbol {
+    width: 70px;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 0;
+}
+
+.character-image {
+    text-align: center;
+}
+
+.fatigue-stamina {
+    width: 100%;
+}
+
+.stamina-fatigue-image {
+    float: left;
+    width: 50%;
+    padding-right: 5px;
+}
+
+.counter {
+    width: 50%;
+    float: right;
+}
+
+.stamina-image {
+    width: 25px;
+    height: 23px;
+    float: right;
+}
+
+.fatigue-image {
+    width: 25px;
+    height: 30px;
+    float: right;
+    padding-top: 5px;
+
+}
+
+#stamina, #fatigue {
+    width: 30px;
+    height: 30px;
+    float: left;
+    border: 1px solid black;
+}
+
+.stamina-plus, .stamina-minus, .fatigue-plus, .fatigue-minus {
+    float: left;
+    width: 20px;
+    height: 30px;
+    text-align: center;
+    margin: 0 5px 0 5px;
+}
+
+.reset-button {
+    width: 100%;
+    text-align: center;
+}
+
+.reset {
+
+}
+
+

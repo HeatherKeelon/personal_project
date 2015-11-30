@@ -1,6 +1,7 @@
 myApp.directive('gameProfile',
     function(){
         return{
+            controller: 'GameController',
             restrict: "E",
             scope: {
                 info: "="

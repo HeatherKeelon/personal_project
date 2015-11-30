@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/main_syndrael_styles.css">
+    <script type="text/javascript" src="/vendors/angular.min.js"></script>
+    <script type="text/javascript" src="/vendors/angular-route.min.js"></script>
+    <script type="text/javascript" src="/assets/scripts/app.min.js"></script>
+    <script type="text/javascript" src="/assets/scripts/factories/data.min.js"></script>
+    <title></title>
+</head>
+<body>
+    <div class="wrapper" ng-controller="MainCharacterController">
+       <div class="left-side">
+           <div class="to-acts"><a href="acts.html">Acts</a></div>
+           <div class="character-image">
+               <img class="character-symbol" src="../../assets/pictures/Syndrael.png" alt="Syndrael">
+               <h3>Syndrael</h3>
+           </div>
+
+           <div class="fatigue-stamina">
+                <div class="stamina-fatigue-image">
+                    <img class="stamina-image" src="../../assets/pictures/heart.png" alt="stamina image">
+                </div>
+                <div class="counter">
+                    <input type="text" name="stamina" id="stamina" value={{syndraelstamina}} min="0" max={{syndraelstaminamax}}>
+                   <div class =count-box>
+                        <div class="stamina-plus">+</div>
+                        <div class="stamina-minus">-</div>
+                   </div>
+                </div>
+           </div>
+
+           <div class="fatigue-stamina">
+               <div class="stamina-fatigue-image">
+                   <img class="fatigue-image" src="../../assets/pictures/Drop.png" alt="fatigue image">
+               </div>
+               <div class="counter">
+                   <input type="text" name="fatigue" id="fatigue" value={{syndraelfatigue}} min="0" max={{syndraelfatiguemax}}>
+                   <div class="count-box">
+                       <div class="fatigue-plus">+</div>
+                       <div class="fatigue-minus">-</div>
+                   </div>
+           </div>
+           </div>
+            <br>
+           <br>
+           <br>
+           <div class="reset-button">
+               <button class="reset btn">Reset</button>
+           </div>
+
+          <div class="unequipped-drop">
+              <span>Unequipped</span>
+              <select ng-change="" ng-model="" ng-options="equip as syndraelunequip.name for equip in syndraelunequip"></select>
+          </div>
+       </div>
+    </div>
+
+
+</body>
+</html>

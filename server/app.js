@@ -10,6 +10,7 @@ var register = require('./routes/register');
 var user = require('./routes/user');
 var index = require('./routes/index');
 var games = require('./routes/games');
+var acts = require('./routes/acts');
 
 
 // App Set //
@@ -31,6 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+app.use('/acts', acts);
 app.use('/games', games);
 app.use('/register', register);
 app.use('/user', user);

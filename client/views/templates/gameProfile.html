@@ -1,4 +1,6 @@
-<div>
-    <button class="btn" data-id="{{info}}">Game {{info}}</button><span>Delete</span>
+<div ng-controller="GameController">
+    <button class="btn" ng-click="gameFactory(info)" data-id="{{info}}"><a href="">Game {{info}}</a></button><span>Delete</span>
 
 </div>
+
+<!--<a href="/assets/views/acts.html">-->

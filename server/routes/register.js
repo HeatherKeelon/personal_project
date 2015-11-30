@@ -20,6 +20,22 @@ router.post('/', function(req, res, next){
 
     pg.connect(connectionString, function (err, client) {
         console.log(req.body.username);
+        client.query("SELECT team_name, username FROM users WHERE team_name = '" + req.body.team_name +"'",
+        function(err, response){
+            if (err) console.log(err);
+            if (response.rows[0]==undefined){
+                next();
+            }else{
+                var teammates=[];
+                console.log(response['rows']);
+                for (var i=0; i<response.rows.length; i++){
+                    teammates.push(response['rows'][i].username);
+                }
+                console.log("This is teammates", teammates);
+            }
+        });
+
+
         client.query("SELECT username FROM users WHERE username = '" + req.body.username +"'",
         function(err, response){
 
