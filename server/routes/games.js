@@ -53,7 +53,6 @@ router.get('/refreshGames', function(req, res){
 
         query.on('end', function(){
             client.end();
-            console.log("This is gameNumber", gameNumber);
             return res.json(gameNumber);
         });
 
@@ -76,7 +75,6 @@ router.get('/teamandgame', function(req, res){
 
         query.on('row', function(row){
             response = row;
-            console.log("This is response in server", response);
         });
 
         query.on('end', function(){
@@ -109,7 +107,6 @@ router.get('/teamandgame', function(req, res){
 
 
 router.post('/newGame', function(req, res){
-    console.log("You're in newGame.");
   pg.connect(connectionString, function(err, client){
       var gameUpdate = req.body['params'];
       //console.log("This is gameUpdate", gameUpdate);
@@ -139,7 +136,6 @@ router.post('/assignGame', function(req, res){
 });
 
 router.post('/makeTables', function(req, res){
-    console.log("You are in makeTables");
     var team = req.body['params']['team_name'];
     var gamenumber = req.body['params']['game_number'];
 

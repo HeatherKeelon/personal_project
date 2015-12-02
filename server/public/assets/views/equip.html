@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/vendors/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/styles/equip_styles.css">
+    <script type="text/javascript" src="/vendors/angular.min.js"></script>
+    <script type="text/javascript" src="/vendors/angular-route.min.js"></script>
+    <script type="text/javascript" src="/assets/scripts/app.min.js"></script>
+    <script type="text/javascript" src="/assets/scripts/factories/data.min.js"></script>
+    <title></title>
+</head>
+<body>
+<div class="wrapper col-md-offset-1 col-md-10" ng-controller="MainCharacterController">
+    <header>
+        <h2>{{equip}}</h2>
+    </header>
+
+    <div class="description">
+        <p>{{description}}</p>
+    </div>
+
+    <div class="bottom-equip">
+        <div class="equip-bottom-left">
+            <p>{{hand}}</p>
+            <p>{{gold}}</p>
+        </div>
+
+        <div class="equip-bottom-right">
+            <p>find</p>
+            <p>purchase</p>
+            <p>equip</p>
+            <p>unequip</p>
+            <p>sell</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

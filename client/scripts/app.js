@@ -1,40 +1,20 @@
-var myApp = angular.module("myApp", []);
+var myApp = angular.module("myApp", ['ngRoute']);
 
-myApp.controller('GameController', ['$scope', '$http', '$location', 'TeamAndGame', function($scope, $http, $location, TeamAndGame){
+myApp.controller('GameController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
     $scope.user = {};
     $scope.team_id;
     $scope.username = {};
     $scope.currentGame=[];
     $scope.numberGames=$scope.currentGame.length;
-    $scope.teamAndGame = TeamAndGame;
 
-    $scope.teamAndGame.retrieveData();
+
 
     //Functions for games.html
 
-    $scope.gameFactory = function(number){
-        console.log("You are in gameFactory, here number", number);
-
-
-        $http.post('/games/assignGame', {params: {"chosen_game": number, "team_name": $scope.user}}).then(function(){
-            console.log("Game Posted");
-            if($scope.teamAndGame.gameData() == undefined){
-                $scope.teamAndGame.retrieveData().then(function(){
-                    $scope.game=$scope.teamAndGame.gameData().then(function(){
-                        $scope.teamAndGame.gameNumber = number;
-                        window.location = '/assets/views/acts.html';
-                    });
-
-                });
-            }else {
-                $scope.game=$scope.teamAndGame.gameData();
-                window.location = '/assets/views/acts.html';
-            }
-            console.log("async", $scope.teamAndGame.gameData());
-            console.log("game", $scope.game);
-
-        });
+    $scope.setGame = function(cname, number){
+        document.cookie = cname + "=" + number + ";";
+        console.log(document.cookie);
     };
 
 
@@ -108,75 +88,257 @@ myApp.controller('GameController', ['$scope', '$http', '$location', 'TeamAndGame
 
 
 
-myApp.controller('ActsController', ['$scope', '$http', '$location', 'TeamAndGame', function($scope, $http, $location, TeamAndGame){
-    $scope.teamAndGame = TeamAndGame;
+myApp.controller('ActsController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
     $scope.user;
+    $scope.cookie;
 
-    console.log("This is from factory:", $scope.teamAndGame);
 
-    //
-    //if($scope.teamAndGame.gameData() == undefined){
-    //    $scope.teamAndGame.retrieveData().then(function(){
-    //        $scope.game=$scope.teamAndGame.gameData();
-    //    });
-    //}else {
-    //    $scope.game=$scope.teamAndGame.gameData();
-    //}
+    $scope.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.cookie=c.substring(name.length,c.length);
+                console.log("Cookie inside getCookie", $scope.cookie);
+                return $scope.cookie;
+            }
 
-    //
-    //$scope.getTeam = function(){
-    //    $http.get('/acts/getTeam').then(function(response){
-    //        $scope.user = response['data'];
-    //        console.log("This is response", response['data']);
-    //    });
-    //};
-    //
-    //
-    //
-    //$scope.getTeam();
-    //console.log("Scope.game", $scope.game);
+        }
+        return "";
+    };
+    $scope.getCookie('game');
+    console.log("Cookie outside getcookie", $scope.cookie);
+
+
+    $scope.getTeam = function(){
+        console.log("get team has been called");
+        $http.get('/acts/getTeam').then(function(response){
+            document.cookie = "user" + "=" + response['data'] + ";";
+        });
+    };
+
+
+
+    $scope.getTeam();
+
+
+    $scope.getUser = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.user=c.substring(name.length,c.length);
+                return $scope.user;
+            }
+
+        }
+        return "";
+    };
+
+    $scope.getUser('user');
+
+    console.log("games", $scope.cookie);
+    console.log("user", $scope.user);
 
 }]);
 
 
-myApp.controller('MainCharacterController', ['$scope', '$http', '$location', 'TeamAndGame', function($scope, $http, $location, TeamAndGame){
-    $scope.teamAndGame = TeamAndGame;
+myApp.controller('MainCharacterController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    //set up variables
     $scope.user;
     $scope.character = 'Syndrael';
-    $scope.syndraelstamina = 12;
+    $scope.game;
+
+    //Status variables
+    $scope.syndraelstamina;
     $scope.syndraelstaminamax = 12;
     $scope.syndraelfatigue = 4;
     $scope.syndraelfatiguemax = 4;
-    $scope.syndraelunequip = [];
-
-
-    if($scope.teamAndGame.gameData() == undefined){
-        $scope.teamAndGame.retrieveData();
-    }
-    $scope.game=$scope.teamAndGame.gameData();
-    console.log("This is $scope.game", $scope.game);
-    $scope.getTeam = function(){
-        $http.get('/acts/getTeam').then(function(response){
-            $scope.user = response['data'];
-            console.log("This is response", response['data']);
-        });
+    $scope.syndraelmight = 4;
+    $scope.syndraelknowledge = 3;
+    $scope.syndraelwillpower = 2;
+    $scope.syndraelawareness = 2;
+    $scope.checkboxModel = {
+        poison: false,
+        immobalize: false,
+        stun: false,
+        disease: false
     };
 
+    //Equipment/Skills/Items variables
+    $scope.syndraelunequip = [];
+    $scope.bankequip = [];
+    $scope.syndraelrh = 'none';
+    $scope.syndraellh = 'none';
+    $scope.syndraelbh = 'none';
+    $scope.syndraelaccessory1 = 'none';
+    $scope.syndraelaccessory2 = 'none';
+    $scope.equip = 'none';
+    $scope.description;
+    $scope.hand;
+    $scope.gold;
+
+
+
+
+
+
+    //Page set-up functions
+
+    $scope.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.game=c.substring(name.length,c.length);
+                return $scope.game;
+            }
+
+        }
+        return "";
+    };
+    $scope.getCookie('game');
+
+    $scope.getUser = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.user=c.substring(name.length,c.length);
+                return $scope.user;
+            }
+
+        }
+        return "";
+    };
+
+    $scope.getUser('user');
 
 
     $scope.getUnequip = function(){
-        $http.get('/acts/getUnequip', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character}}).then(function(response){
+        $http.get('/main/getUnequip', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character}}).then(function(response){
             $scope.syndraelunequip = response.data;
-            console.log("This is syndrael unequip", $scope.syndraelunequip);
-            console.log("This is $scope.user", $scope.user);
-            console.log("This is $scope.game", $scope.game);
         });
     };
 
-    $scope.getTeam();
+    $scope.getBankequip = function(){
+        $http.get('/main/getBankequip', {params: {"team": $scope.user, "game": $scope.game}}).then(function(response){
+            $scope.bankequip = response.data;
+            console.log($scope.bankequip);
+        });
+    };
+
+    $scope.syndraelHeroicFeat = function(){
+        alert("Use during your turn to choose a hero within 3 spaces of you. You and that hero may each immediately perform a move action. This is in addition to the 2 actions each hero receives on his turn.");;
+    };
+
+    $scope.syndraelHeroicAbility = function(){
+        alert("If you have not moved during this turn, you recover 2 stamina at the end of your turn.");
+    };
+
+    $scope.syndraelStartingStamina = function(){
+        $http.get('/main/startStats', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stat": 'stamina'}}).then(function(response){
+            $scope.syndraelstamina=response.data['stamina'];
+        });
+    };
+
+    $scope.syndraelStartingFatigue = function(){
+        $http.get('/main/startStats', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stat": 'fatigue'}}).then(function(response){
+            $scope.syndraelfatigue=response.data['fatigue'];
+        });
+    };
+
+
+
+    //User interactions functions
+    $scope.staminaPlus = function(){
+        if($scope.syndraelstamina < $scope.syndraelstaminamax){
+            $scope.syndraelstamina++;
+            $http.post('/main/staminafatigue', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stat": $scope.syndraelstamina, "type": 'stamina'}}).then(function(){
+                console.log("stamina post");
+            });
+        }
+    };
+
+    $scope.staminaMinus = function(){
+        if($scope.syndraelstamina > 0){
+            $scope.syndraelstamina--;
+            $http.post('/main/staminafatigue', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stat": $scope.syndraelstamina, "type": 'stamina'}}).then(function(){
+                console.log("stamina post");
+            });
+        }
+
+    };
+
+    $scope.fatiguePlus = function(){
+        if($scope.syndraelfatigue < $scope.syndraelfatiguemax){
+            $scope.syndraelfatigue++;
+            $http.post('/main/staminafatigue', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stat": $scope.syndraelfatigue, "type": 'fatigue'}}).then(function(){
+                console.log("fatigue post");
+            });
+        }
+    };
+
+    $scope.fatigueMinus = function(){
+        if($scope.syndraelfatigue > 0){
+            $scope.syndraelfatigue--;
+            $http.post('/main/staminafatigue', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stat": $scope.syndraelfatigue, "type": 'fatigue'}}).then(function(){
+                console.log("fatigue post");
+            });
+        }
+    };
+
+    $scope.resetStats = function(){
+        $scope.syndraelstamina = $scope.syndraelstaminamax;
+        $scope.syndraelfatigue = $scope.syndraelfatiguemax;
+        $http.post('/main/resetStats', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "stamina": $scope.syndraelstaminamax, "fatigue": $scope.syndraelfatiguemax}}).then(function(){
+            console.log("stats reset");
+        });
+    };
+
+    $scope.selectEquip = function(equipname){
+        console.log("This is equipname", equipname.name);
+        for (var i= 0; i<$scope.syndraelunequip.length; i++){
+            console.log("Scope.unequip[i]", $scope.syndraelunequip);
+            console.log("This is scope.name", $scope.syndraelunequip[i].name);
+            console.log($scope.syndraelunequip[i].description);
+            if ($scope.syndraelunequip[i].name == equipname.name) {
+                console.log("you are in if statement");
+                $scope.equip = $scope.syndraelunequip[i].name;
+                $scope.description = $scope.syndraelunequip[i].description;
+                if($scope.syndraelunequip[i].type == 1){
+                    $scope.hand = "Single-Handed";
+                }else if ($scope.syndraelunequip[i].type == 2){
+                    $scope.hand = "Two-Handed";
+                }else {
+                    $scope.hand=$scope.syndraelunequip[i].type;
+                }
+            }
+        };
+        window.location='/assets/views/equip.html';
+        console.log("Selected Name", $scope.equip);
+        console.log("Selected Description", $scope.description);
+        console.log("Selected Type", $scope.hand);
+    };
+
+
+    //Starting page calls
+    $scope.syndraelStartingStamina();
+    $scope.syndraelStartingFatigue();
     $scope.getUnequip();
+    $scope.getBankequip();
 
 
 }]);
+
 
 
