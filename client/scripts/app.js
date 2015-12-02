@@ -148,7 +148,7 @@ myApp.controller('ActsController', ['$scope', '$http', '$location', function($sc
 }]);
 
 
-myApp.controller('MainCharacterController', ['$scope', '$http', '$location', function($scope, $http, $location){
+myApp.controller('MainCharacterController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http){
     //set up variables
     $scope.user;
     $scope.character = 'Syndrael';
@@ -176,12 +176,12 @@ myApp.controller('MainCharacterController', ['$scope', '$http', '$location', fun
     $scope.syndraelrh = 'none';
     $scope.syndraellh = 'none';
     $scope.syndraelbh = 'none';
-    $scope.syndraelaccessory1 = 'none';
-    $scope.syndraelaccessory2 = 'none';
-    $scope.equip = 'none';
-    $scope.description;
-    $scope.hand;
-    $scope.gold;
+    $rootScope.syndraelaccessory1 = 'none';
+    $rootScope.syndraelaccessory2 = 'none';
+    $rootScope.equip = undefined;
+    $rootScope.description = undefined;
+    $rootScope.hand = undefined;
+    $scope.gold = undefined;
 
 
 
@@ -227,13 +227,14 @@ myApp.controller('MainCharacterController', ['$scope', '$http', '$location', fun
     $scope.getUnequip = function(){
         $http.get('/main/getUnequip', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character}}).then(function(response){
             $scope.syndraelunequip = response.data;
+            console.log("This is unequip", $scope.syndraelunequip);
         });
     };
 
     $scope.getBankequip = function(){
         $http.get('/main/getBankequip', {params: {"team": $scope.user, "game": $scope.game}}).then(function(response){
             $scope.bankequip = response.data;
-            console.log($scope.bankequip);
+            console.log("This is bank equip", $scope.bankequip);
         });
     };
 
@@ -313,21 +314,21 @@ myApp.controller('MainCharacterController', ['$scope', '$http', '$location', fun
             console.log($scope.syndraelunequip[i].description);
             if ($scope.syndraelunequip[i].name == equipname.name) {
                 console.log("you are in if statement");
-                $scope.equip = $scope.syndraelunequip[i].name;
-                $scope.description = $scope.syndraelunequip[i].description;
+                $rootScope.equip = $scope.syndraelunequip[i].name;
+                $rootScope.description = $scope.syndraelunequip[i].description;
                 if($scope.syndraelunequip[i].type == 1){
-                    $scope.hand = "Single-Handed";
+                    $rootScope.hand = "Single-Handed";
                 }else if ($scope.syndraelunequip[i].type == 2){
-                    $scope.hand = "Two-Handed";
+                    $rootScope.hand = "Two-Handed";
                 }else {
-                    $scope.hand=$scope.syndraelunequip[i].type;
+                    $rootScope.hand=$scope.syndraelunequip[i].type;
                 }
             }
         };
-        window.location='/assets/views/equip.html';
-        console.log("Selected Name", $scope.equip);
-        console.log("Selected Description", $scope.description);
-        console.log("Selected Type", $scope.hand);
+        console.log("Selected Name", $rootScope.equip);
+        console.log("Selected Description", $rootScope.description);
+        console.log("Selected Type", $rootScope.hand);
+        window.location='/assets/views/index.html#/equip';
     };
 
 
@@ -341,4 +342,30 @@ myApp.controller('MainCharacterController', ['$scope', '$http', '$location', fun
 }]);
 
 
+myApp.controller('EquipmentController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http){
+    $scope.equip=$rootScope.equip;
+    $scope.description=$rootScope.description;
+    $scope.hand = $rootScope.hand;
 
+
+}]);
+
+myApp.config(['$routeProvider', function($routeProvider){
+    $routeProvider.
+        when('/acts', {
+            templateUrl: "/assets/views/acts.html",
+            controller: "ActsController"
+        }).
+
+        when('/main', {
+            templateUrl: "/assets/views/main_syndrael.html",
+            controller: "MainCharacterController"
+        }).
+        when('/equip', {
+            templateUrl: "/assets/equip.html",
+            controller: "EquipController"
+        }).
+        otherwise({
+            redirectTo: 'acts'
+        })
+}]);
