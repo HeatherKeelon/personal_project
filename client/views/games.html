@@ -1,0 +1,22 @@
+
+<div class="wrapper-div" ng-controller="GameController">
+    <header>
+        <h1>Welcome</h1>
+        <h3>Team {{user}}</h3>
+    </header>
+
+    <div class="btn-box">
+        <button class="btn" ng-click="newGame()">New Game</button>
+    </div>
+
+    <!--<div class="new-game-user" ng-show="clicked" aria-label="Toggle ng-Show">-->
+        <!--<p>{{username}} has created a new game!</p>-->
+    <!--</div>-->
+
+    <div ng-repeat="number in currentGame">
+        <game-profile info="number"></game-profile>
+    </div>
+
+</div>
+
+

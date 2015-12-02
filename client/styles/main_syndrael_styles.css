@@ -1,0 +1,206 @@
+body {
+    font-size: 16px;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+ul {
+    list-style-type: none;
+    display: inline-block;
+    float: left;
+}
+
+/*.wrapper {*/
+    /*width: 50%;*/
+/*}*/
+
+.left-side {
+    width: 50%;
+    float: left;
+}
+
+.right-side {
+    width: 50%
+    float: right;
+}
+
+.bottom-feats, .bottom-stats, .conditions-links {
+    width: 100%;
+}
+
+
+.character-symbol {
+    width: 70px;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 0;
+}
+
+.character-image {
+    text-align: center;
+}
+
+.fatigue-stamina {
+    width: 100%;
+}
+
+
+
+@media (min-width:320px) {
+    .stamina-fatigue-image {
+        width: 20%;
+        float: left;
+        padding-right: 5px;
+    }
+}
+
+@media (min-width:961px){
+    .stamina-fatigue-image {
+        float: left;
+        width: 50%;
+        padding-right: 5px;
+    }
+}
+
+@media (min-width:320px) {
+    .counter {
+        width: 80%;
+        float: right;
+    }
+}
+
+@media (min-width:961px){
+    .counter {
+        width: 50%;
+        float: right;
+    }
+}
+
+
+
+.stamina-image {
+    width: 25px;
+    height: 23px;
+    float: right;
+}
+
+.fatigue-image {
+    width: 25px;
+    height: 30px;
+    float: right;
+    padding-top: 5px;
+
+}
+
+#stamina, #fatigue {
+    width: 30px;
+    height: 30px;
+    float: left;
+    border: 1px solid black;
+}
+
+.stamina-plus, .stamina-minus, .fatigue-plus, .fatigue-minus {
+    float: left;
+    width: 20px;
+    height: 30px;
+    text-align: center;
+    margin: 0 5px 0 5px;
+}
+
+.reset-button {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reset {
+
+}
+
+.unequipped-drop {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.bankequip-drop {
+    width: 100%;
+    text-align: center;
+}
+
+.unequipped-drop p, .bankequip-drop p {
+    margin-bottom: 1px;
+}
+
+.heroic-feat {
+    width: 50%;
+    text-align: center;
+    margin-top: 20px;
+    float: left;
+}
+
+.heroic-ability {
+    width: 50%;
+    text-align: center;
+    margin-top: 20px;
+    float: right;
+}
+
+.heroic-feat p {
+    color: darkred;
+}
+
+.heroic-ability p {
+    color: darkred;
+}
+
+.might-knowledge {
+    width: 50%;
+    text-align: right;
+    float: left;
+}
+
+.might-knowledge-p {
+    width: 80%;
+}
+
+.conditions {
+    text-align: left;
+    width: 30%;
+    float: left;
+}
+
+.right-hand, .left-hand, .both-hands, .accessory1, .accessory2 {
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.equipped-label {
+    margin-bottom: 0;
+}
+
+.willpower-awareness {
+    width: 50%;
+    text-align: left;
+    float: right;
+}
+
+.willpower-awareness-p {
+    width: 80%;
+}
+
+.skills-items {
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+
+
+
+
+

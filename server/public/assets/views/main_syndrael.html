@@ -1,0 +1,155 @@
+
+    <div class="wrapper col-md-offset-3 col-md-6 col-xs-12" ng-controller="MainCharacterController">
+       <div class="left-side col-xs-6">
+           <div class="character-image">
+               <img class="character-symbol" src="../../assets/pictures/Syndrael.png" alt="Syndrael">
+               <h3>Syndrael</h3>
+           </div>
+
+           <div class="fatigue-stamina">
+                <div class="stamina-fatigue-image">
+                    <img class="stamina-image" src="../../assets/pictures/heart.png" alt="stamina image">
+                </div>
+                <div class="counter">
+                    <input type="text" name="stamina" id="stamina" value={{syndraelstamina}} min="0" max={{syndraelstaminamax}}>
+                   <div class =count-box>
+                        <div class="stamina-plus" ng-click="staminaPlus()">+</div>
+                        <div class="stamina-minus" ng-click="staminaMinus()">-</div>
+                   </div>
+                </div>
+           </div>
+
+           <div class="fatigue-stamina">
+               <div class="stamina-fatigue-image">
+                   <img class="fatigue-image" src="../../assets/pictures/Drop.png" alt="fatigue image">
+               </div>
+               <div class="counter">
+                   <input type="text" name="fatigue" id="fatigue" value={{syndraelfatigue}} min="0" max={{syndraelfatiguemax}}>
+                   <div class="count-box">
+                       <div class="fatigue-plus" ng-click="fatiguePlus()">+</div>
+                       <div class="fatigue-minus" ng-click="fatigueMinus()">-</div>
+                   </div>
+           </div>
+           </div>
+            <br>
+           <br>
+           <br>
+           <div class="reset-button">
+               <button ng-click="resetStats()" class="reset btn">Reset</button>
+           </div>
+
+          <div class="unequipped-drop">
+              <p>Unequipped</p>
+              <select ng-change="selectEquip(selectedequip.name)" ng-model="selectedequip.name" ng-options="syndraelunequip as syndraelunequip.name for syndraelunequip in syndraelunequip"></select>
+          </div>
+
+           <div class="bankequip-drop">
+               <p>Bank Equipment</p>
+               <select ng-model="selectedbankequip" ng-options="bankequip as bankequip.name for bankequip in bankequip"></select>
+           </div>
+
+           <div class="invisidiv">
+               <p></p>
+           </div>
+
+       </div>
+
+        <div class="right-side col-xs-6">
+
+            <div class="right-hand">
+                <p class="equipped-label">Right Hand</p>
+                <p class="equipped-item">{{syndraelrh}}</p>
+            </div>
+
+            <div class="left-hand">
+                <p class="equipped-label">Left Hand</p>
+                <p class="equipped-item">{{syndraellh}}</p>
+            </div>
+
+            <div class="both-hands">
+                <p class="equipped-label">Two-Handed</p>
+                <p class="equipped-item">{{syndraelbh}}</p>
+            </div>
+
+            <div class="accessory1">
+                <p class="equipped-label">Accessory 1</p>
+                <p class="equipped-item">{{syndraelaccessory1}}</p>
+            </div>
+
+            <div class="accessory2">
+                <p class="equipped-label">Accessory 2</p>
+                <p class="equipped-item">{{syndraelaccessory2}}</p>
+            </div>
+
+        </div>
+
+
+
+        <div class="bottom-feats col-xs-6">
+
+            <div class="heroic-feat">
+                <p ng-click="syndraelHeroicFeat()">Heroic Feat</p>
+            </div>
+
+            <div class="heroic-ability">
+                <p ng-click="syndraelHeroicAbility()">Heroic Ability</p>
+            </div>
+        </div>
+
+
+        <div class="bottom-stats col-xs-6">
+
+            <div class="might-knowledge">
+                <div class="might-knowledge-p">
+                    <p>Might: {{syndraelmight}}</p>
+                    <p>Knowledge: {{syndraelknowledge}}</p>
+                </div>
+            </div>
+
+            <div class="willpower-awareness">
+                <div class="willpower-awareness-p">
+                    <p>Willpower: {{syndraelwillpower}}</p>
+                    <p>Awareness: {{syndraelawareness}}</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="conditions-links col-xs-6">
+
+
+           <div class="conditions">
+               <form name="conditionform">
+                   <label>
+                       <input type="checkbox" ng-model="checkboxModel.poison">
+                       poisoned
+                   </label>
+                   <br>
+                   <label>
+                        <input type="checkbox" ng-model="checkboxModel.immobalize">
+                       immobalized
+                   </label>
+                   <br>
+                   <label>
+                        <input type="checkbox" ng-model="checkboxModel.stun">
+                       stunned
+                   </label>
+                   <br>
+                   <label>
+                        <input type="checkbox" ng-model="checkboxModel.disease">
+                       diseased
+                   </label>
+               </form>
+           </div>
+
+            <div class="skills-items">
+                <p>Skills ></p>
+                <p>Items ></p>
+            </div>
+
+        </div>
+            </div>
+
+
+

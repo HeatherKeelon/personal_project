@@ -1,0 +1,182 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    display: block;
+    border: 1px solid black;
+    padding: 0;
+    text-align: center;
+}
+
+@media (min-width:320px) {
+    main {margin: 0;}
+}
+
+@media (min-width:961px){
+    main {margin-left: 20px;}
+}
+
+p {
+    display: inline-block;
+}
+
+.hero {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.overlord {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    text-align: center;
+}
+
+.right-pane-top {
+    float: right;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 0;
+    margin: 0;
+    width: 50%;
+    text-align: center;
+    height: 45px;
+}
+
+
+#wrapperOne {
+    padding: 0;
+    margin: 0;
+
+}
+
+
+#wrapperTwo {
+    margin: 0;
+    padding:0;
+    height: 45px;
+
+}
+
+.space-div {
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+.act-one {
+    width: 10%;
+    border: 2px solid black;
+    border-radius: 100%;
+    float: left;
+    text-align: center;
+    margin: 0;
+    height: 45px;
+
+}
+
+.act-two {
+    width: 10%;
+    border: 2px solid black;
+    border-radius: 100%;
+    float: left;
+    text-align: center;
+    margin: 0;
+    height: 45px;
+}
+
+.top-pane {
+    width: 90%;
+    border: 2px solid black;
+    border-radius: 20px;
+    float: right;
+    text-align: center;
+    margin: 0;
+    height: 45px;
+}
+
+.left-pane {
+    float: left;
+    width: 45%;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    height: 45px;
+}
+
+.right-pane {
+    float: right;
+    width: 45%;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    height: 45px;
+}
+
+#wrapperThree {
+    /*border-bottom: 2px solid black;*/
+    margin: 0;
+    padding:0;
+}
+
+.hero-win {
+    width: 20px;
+    height: auto;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+.overlord-win {
+    width: 20px;
+    height: auto;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+.hero-pic {
+    width: 25px;
+    height: auto;
+    padding-right: 10px;
+}
+
+.overlord-pic {
+    width: 25px;
+    height: auto;
+    padding-left: 10px;
+}
+
+.interlude-final {
+    float: left;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    width:30%;
+    height: 45px;
+}
+
+.final-panes {
+    float: right;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    width: 70%;
+    height: 45px;
+}
+
+.main-boxes {
+    height: 90px;
+}
+
+.main-character-name {
+    font-weight: bold;
+}
