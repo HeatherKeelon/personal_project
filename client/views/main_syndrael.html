@@ -46,7 +46,7 @@
 
            <div class="bankequip-drop">
                <p>Bank Equipment</p>
-               <select ng-model="selectedbankequip" ng-options="bankequip as bankequip.name for bankequip in bankequip"></select>
+               <select ng-change="selectedEquip(selectedequip.name)" ng-model="selectedbankequip" ng-options="bankequip as bankequip.name for bankequip in bankequip"></select>
            </div>
 
            <div class="invisidiv">
@@ -70,6 +70,11 @@
             <div class="both-hands">
                 <p class="equipped-label">Two-Handed</p>
                 <p class="equipped-item">{{syndraelbh}}</p>
+            </div>
+
+            <div class="armor">
+                <p class="equipped-label">Armor</p>
+                <p class="equipped-item">{{syndraelarmor}}</p>
             </div>
 
             <div class="accessory1">

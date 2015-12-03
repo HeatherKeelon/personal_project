@@ -173,7 +173,7 @@ ul {
     float: left;
 }
 
-.right-hand, .left-hand, .both-hands, .accessory1, .accessory2 {
+.right-hand, .left-hand, .both-hands, .accessory1, .accessory2, .armor {
     width: 100%;
     text-align: center;
     padding-top: 20px;

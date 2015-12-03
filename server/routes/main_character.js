@@ -68,6 +68,27 @@ router.get('/getBankequip', function(req, res){
 
 });
 
+router.get('/syndraelEquip', function(req, res){
+    var game = req.query.game;
+    var character = req.query.character;
+    var team = req.query.team;
+    var equip = [];
+
+    pg.connect(connectionString, function(err, client){
+        var query = client.query("SELECT right_hand, left_hand, two_hand, armor, acc1, acc2 FROM " + team + game + "_characters WHERE character_name=$1",
+        [character]);
+
+        query.on('row', function(row){
+            equip.push(row);
+        });
+
+        query.on('end', function(){
+            client.end();
+            return res.json(equip);
+        });
+    });
+});
+
 router.post('/staminafatigue', function(req, res){
     var team = req.body['params']['team'];
     var game = req.body['params']['game'];

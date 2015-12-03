@@ -22,21 +22,15 @@ router.get('/getTeam', function(req, res) {
 });
 
 router.get('/getGold', function(req, res){
-    console.log("This is the request in get gold", req.query);
     var team= req.query.team;
-    console.log("This is team", req.query.team);
     var game= req.query.game;
-    console.log("This is game", req.query.game);
     var character = req.query.character;
-    console.log("This is character", req.query.character);
     pg.connect(connectionString, function(err, client){
         var gold;
         client.query("SELECT gold FROM " + team + game + "_characters WHERE character_name=$1",
         [character],
         function(err, response){
-            console.log("This is response inside getGold", response);
             gold=(response.rows[0].gold);
-            console.log("This is gold", gold);
             client.end();
             res.send(gold);
         });
@@ -46,20 +40,20 @@ router.get('/getGold', function(req, res){
 });
 
 router.post('/updateGold', function(req, res){
-    console.log("You are in updateGold on server");
     var team = req.body['params']['team'];
     var character = req.body['params']['character'];
     var game = req.body['params']['game'];
-    var gold = req.body['params']['newgold'];
+    var gold = req.body['params']['gold'];
 
     pg.connect(connectionString, function(err, client){
-        client.query("UPDATE " + team + game + " _characters SET gold=$1 WHERE character_name=$2",
+        client.query("UPDATE " + team + game + "_characters SET gold=$1 WHERE character_name=$2",
         [gold, character],
         function(err){
             if (err) console.log(err);
             client.end();
         });
     });
+    res.send(gold);
 });
 
 

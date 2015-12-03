@@ -5,20 +5,24 @@ myApp.factory('GoldFactory', ["$http", function($http){
 
 
     var getGold = function(team, game, character){
-        var promise = $http.get('/acts/getGold', {params:{"team": team, "game": game, "character": character}}).then(function(response) {
-            console.log("this is response.data", response.data);
+        console.log("You have entered getGold function");
+        $http.get('/acts/getGold', {params:{"team": team, "game": game, "character": character}}).then(function(response) {
             gold = response.data;
             console.log("This is gold in the factory", gold);
 
         });
-        return promise;
+        console.log("This is gold outside promise variable", gold);
+        return gold;
     };
 
     var updateGold = function(team, game, character, newgold){
-        var promise = $http.get('/acts/updateGold', {params:{"team": team, "game": game, "character": character, "gold": newgold}}).then(function(response){
+        console.log("You have entered updateGold function.");
+        console.log("This is newgold to post", newgold);
+        $http.post('/acts/updateGold', {params:{"team": team, "game": game, "character": character, "gold": newgold}}).then(function(){
             gold = newgold;
+            console.log("This is gold in factory after update", gold);
         });
-        return promise;
+        return gold;
     };
 
 
