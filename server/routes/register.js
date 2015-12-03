@@ -32,6 +32,7 @@ router.post('/', function(req, res, next){
                     teammates.push(response['rows'][i].username);
                 }
                 console.log("This is teammates", teammates);
+                client.end();
             }
         });
 
@@ -43,6 +44,7 @@ router.post('/', function(req, res, next){
                 console.log("no user of that name");
                 bcrypt.genSaltAsync(SALT_WORK_FACTOR).then(function(salt){
                     //  if(err) return next(err);
+                    client.end();
                     return bcrypt.hashAsync(user.password, salt);
                 })
                     .then(function(hash){
@@ -54,6 +56,7 @@ router.post('/', function(req, res, next){
                             client.query('insert into users (username, email, team_name, password) VALUES ($1, $2, $3, $4)',
                                 [req.body.username, req.body.email, req.body.team_name, req.body.password],
                                 function (err, res) {
+                                    client.end();
                                     if (err) {console.log("This is second err ", err);
                                         //need to tell user that the username has been taken.
                                     }

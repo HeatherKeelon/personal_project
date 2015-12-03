@@ -79,6 +79,7 @@ router.post('/staminafatigue', function(req, res){
         client.query("UPDATE " + team + game + "_characters SET " + type + "=$1 WHERE character_name=$2",
         [stat, character],
         function(err){
+            client.end();
             if (err) console.log(err);
         });
     });
@@ -95,6 +96,7 @@ router.post('/resetStats', function(req, res){
         client.query("UPDATE " + team + game + "_characters SET stamina=$1, fatigue=$2 WHERE character_name=$3",
             [stamina, fatigue, character],
         function(err){
+            client.end();
             if (err) console.log(err);
         });
     });

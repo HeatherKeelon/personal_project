@@ -12,6 +12,7 @@ var index = require('./routes/index');
 var games = require('./routes/games');
 var acts = require('./routes/acts');
 var main = require('./routes/main_character');
+var equip = require('./routes/equip');
 
 
 // App Set //
@@ -33,6 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+app.use('/equip', equip);
 app.use('/main', main);
 app.use('/acts', acts);
 app.use('/games', games);
