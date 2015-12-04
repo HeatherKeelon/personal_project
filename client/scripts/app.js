@@ -184,6 +184,7 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
     //Equipment/Skills/Items variables
     $scope.syndraelunequip = [];
     $scope.bankequip = [];
+    $scope.equippeddata = [];
     $scope.syndraelcurrent;
     $scope.syndraelrh = 'none';
     $scope.syndraellh = 'none';
@@ -192,6 +193,11 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
     $scope.syndraelaccessory1 = 'none';
     $scope.syndraelaccessory2 = 'none';
     $scope.requestedUnequip = {};
+    $scope.equipment = {
+        name: 'none',
+        description: 'none'
+    };
+    $scope.currentequipment = {};
 
 
 
@@ -242,6 +248,13 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
         $http.get('/main/getBankequip', {params: {"team": $scope.user, "game": $scope.game}}).then(function(response){
             $scope.bankequip = response.data;
             console.log("This is bank equip in call", $scope.bankequip);
+        });
+    };
+
+    $scope.getEquippedData = function(){
+        $http.get('/main/getEquippedData', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character}}).then(function(response){
+            $scope.equippeddata = response.data;
+            console.log("This is equippeddata", $scope.equippeddata);
         });
     };
 
@@ -371,7 +384,8 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
                 $scope.requestedUnequip.id = $scope.syndraelunequip[i].equip_id;
                 $scope.requestedUnequip.category = $scope.syndraelunequip[i].category;
                 $scope.requestedUnequip.type = $scope.syndraelunequip[i].type;
-                $scope.requestedUnequip.category = $scope.syndraelunequip[i].hand;
+                $scope.requestedUnequip.dice = $scope.syndraelunequip[i].dice;
+                $scope.requestedUnequip.exhaust = $scope.syndraelunequip[i].exhaust;
             }
 
         }
@@ -382,11 +396,65 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
         $location.url('/equip');
     };
 
+    $scope.selectBankEquip = function(equipname){
+        console.log("This is equipname", equipname.name);
+        for (var i= 0; i<$scope.bankequip.length; i++){
+            console.log("Scope.unequip[i]", $scope.bankequip);
+            console.log("This is scope.name", $scope.bankequip[i].name);
+            console.log($scope.bankequip[i].description);
+            if ($scope.bankequip[i].name == equipname.name) {
+                console.log("you are in if statement");
+                $scope.equipment.name = $scope.bankequip[i].name;
+                $scope.equipment.description = $scope.bankequip[i].description;
+                $scope.equipment.gold = $scope.bankequip[i].cost;
+                $scope.equipment.sale_cost = $scope.bankequip[i].sale_cost;
+                $scope.equipment.id = $scope.bankequip[i].equip_id;
+                $scope.equipment.category = $scope.bankequip[i].category;
+                $scope.equipment.type = $scope.bankequip[i].type;
+                $scope.equipment.dice = $scope.bankequip[i].dice;
+                $scope.equipment.exhaust = $scope.bankequip[i].exhaust;
+            }
+
+        }
+        $scope.equipFactory.retrieveBank($scope.equipment);
+        console.log("Selected Name", $scope.equipment.name);
+        console.log("Selected Description", $scope.equipment.description);
+        console.log("Selected Type", $scope.equipment.hand);
+        $location.url('/bankequip');
+    };
+
+    //Put selectedCurrentEquip() here!
+    $scope.selectedCurrentEquip = function(equipname){
+        console.log("This is equipname", equipname);
+        console.log("This is equippeddata", $scope.equippeddata);
+        for (var i= 0; i<$scope.equippeddata.length; i++){
+
+        //you stopped at if statement
+            if ($scope.equippeddata[i].name == equipname) {
+                console.log("you are in if statement");
+                $scope.currentequipment.name = $scope.equippeddata[i].name;
+                $scope.currentequipment.description = $scope.equippeddata[i].description;
+                $scope.currentequipment.gold = $scope.equippeddata[i].cost;
+                $scope.currentequipment.sale_cost = $scope.equippeddata[i].sale_cost;
+                $scope.currentequipment.id = $scope.equippeddata[i].equip_id;
+                $scope.currentequipment.category = $scope.equippeddata[i].category;
+                $scope.currentequipment.type = $scope.equippeddata[i].type;
+                $scope.currentequipment.dice = $scope.equippeddata[i].dice;
+                $scope.currentequipment.exhaust = $scope.equippeddata[i].exhaust;
+            }
+
+        }
+        console.log("This is scope.currentequipment", $scope.currentequipment);
+        $scope.equipFactory.retrieveCurrent($scope.currentequipment);
+        $location.url('/carryequip');
+    };
+
 
     //Starting page calls
     $scope.syndraelStartingStamina();
     $scope.syndraelStartingFatigue();
     $scope.syndraelEquip();
+    $scope.getEquippedData();
     $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character);
     //$timeout($scope.getUnequip);
     $scope.getUnequip();
@@ -416,6 +484,7 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
     $scope.equipid;
     $scope.category;
     $scope.type;
+    $scope.dice;
 
 //Set up functions
 
@@ -460,7 +529,15 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
         $scope.sell_gold = $scope.selectedEquip.sale_cost;
         $scope.equipid = $scope.selectedEquip.id;
         $scope.category = $scope.selectedEquip.category;
+        console.log("This is category", $scope.category);
         $scope.type = $scope.selectedEquip.type;
+        $scope.dice = $scope.selectedEquip.dice;
+
+        if($scope.selectedEquip.exhaust==true){
+            $scope.exhaust = 'Yes';
+        }else {
+            $scope.exhaust = 'No';
+        }
     };
 
 
@@ -549,10 +626,119 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
         $location.url('/main');
     };
 
+
+    //set up function calls
+
+    $scope.loadEquip();
+    $scope.goldFactory.goldData($scope.user, $scope.game, $scope.character);
+    $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character);
+    $scope.equipFactory.allWeapon($scope.user, $scope.game, $scope.character);
+
+}]);
+
+
+myApp.controller('BankEquipmentController', ['$scope', '$http', 'TeamAndGame', 'EquipFactory', 'GoldFactory', '$location', function($scope, $http, TeamAndGame, EquipFactory, GoldFactory, $location){
+    $scope.teamAndGame = TeamAndGame;
+    $scope.equipFactory = EquipFactory;
+    $scope.goldFactory = GoldFactory;
+    $scope.selectedBankEquip = {};
+    $scope.character = 'Syndrael';
+    $scope.game;
+    $scope.user;
+    $scope.equipdescription;
+    $scope.equiphand;
+    $scope.equipname;
+    $scope.equipgold;
+    $scope.equipsell_gold;
+    $scope.equipcharacter_gold;
+    $scope.equipequipid;
+    $scope.equipcategory;
+    $scope.equiptype;
+    $scope.equipexhaust;
+    $scope.equipdice;
+
+//Set up functions
+
+    $scope.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.game=c.substring(name.length,c.length);
+                return $scope.game;
+            }
+
+        }
+        return "";
+    };
+    $scope.getCookie('game');
+
+    $scope.getUser = function () {
+        if ($scope.teamAndGame.gameData() == undefined){
+            //console.log("You are in the if statement");
+            $http.get('/acts/getTeam').then(function(response){
+                $scope.teamAndGame.retrieveData(response.data);
+                $scope.user = $scope.teamAndGame.gameData();
+            });
+
+        }else{
+            $scope.user = $scope.teamAndGame.gameData();
+        }
+    };
+
+    $scope.getUser();
+
+    $scope.loadEquip = function(){
+        $scope.selectedBankEquip=$scope.equipFactory.bankData();
+        console.log("This is selected equip", $scope.selectedEquip);
+        $scope.equipdescription = $scope.selectedBankEquip.description;
+        console.log("Scope.description", $scope.equipdescription);
+        $scope.equipname = $scope.selectedBankEquip.name;
+        console.log("equipname", $scope.equipname);
+        $scope.equiphand = $scope.selectedBankEquip.hand;
+        $scope.equipgold = $scope.selectedBankEquip.gold;
+        console.log("equipgold", $scope.equipgold);
+        $scope.equipsell_gold = $scope.selectedBankEquip.sale_cost;
+        $scope.equipid = $scope.selectedBankEquip.id;
+        $scope.equipcategory = $scope.selectedBankEquip.category;
+        console.log("equipcategory", $scope.equipcategory);
+        $scope.equiptype = $scope.selectedBankEquip.type;
+        $scope.equipdice = $scope.selectedBankEquip.dice;
+        console.log("This is equipdice", $scope.equipdice);
+
+        if($scope.selectedBankEquip.exhaust == true){
+            $scope.equipexhaust = 'Yes';
+        }else {
+            $scope.equipexhaust = 'No';
+        }
+
+        console.log("This is exhaust", $scope.equipexhaust);
+    };
+
+
+    //User interactive functions
+
+
     $scope.findEquip = function(){
         $http.post('/equip/findEquip', {params: {"team": $scope.user, "game": $scope.game, "character": $scope.character, "id": $scope.equipid}}).then(function(){
             console.log("Item added to character's collection.");
+            $location.url('/main');
         });
+    };
+
+    $scope.buyEquip = function(gold){
+        var gold=parseInt(gold);
+        $scope.equipcharacter_gold = parseInt($scope.goldFactory.goldData($scope.user, $scope.game, $scope.character));
+        console.log("This is gold", gold);
+        console.log("This is character gold with parseInt(aka factory)", $scope.equipcharacter_gold);
+        $scope.equipcharacter_gold= $scope.equipcharacter_gold - gold;
+        console.log("This is character_gold after sale", $scope.equipcharacter_gold);
+        $scope.goldFactory.postGold($scope.user, $scope.game, $scope.character, $scope.equipcharacter_gold);
+
+        $scope.findEquip();
+
     };
 
     //set up function calls
@@ -561,6 +747,134 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
     $scope.goldFactory.goldData($scope.user, $scope.game, $scope.character);
     $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character);
     $scope.equipFactory.allWeapon($scope.user, $scope.game, $scope.character);
+
+}]);
+
+myApp.controller('CarryEquipmentController', ['$scope', '$http', 'TeamAndGame', 'EquipFactory', 'GoldFactory', '$location', function($scope, $http, TeamAndGame, EquipFactory, GoldFactory, $location){
+    $scope.teamAndGame = TeamAndGame;
+    $scope.equipFactory = EquipFactory;
+    $scope.goldFactory = GoldFactory;
+    $scope.carryEquip = {};
+    $scope.character = 'Syndrael';
+    $scope.game;
+    $scope.user;
+    $scope.carrydescription;
+    $scope.carryhand;
+    $scope.carryname;
+    $scope.carrygold;
+    $scope.carrysell_gold;
+    $scope.carryid;
+    $scope.carrycategory;
+    $scope.carrytype;
+    $scope.carryexhaust;
+    $scope.carrydice;
+
+//Set up functions
+
+    $scope.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.game=c.substring(name.length,c.length);
+                return $scope.game;
+            }
+
+        }
+        return "";
+    };
+    $scope.getCookie('game');
+
+    $scope.getUser = function () {
+        if ($scope.teamAndGame.gameData() == undefined){
+            //console.log("You are in the if statement");
+            $http.get('/acts/getTeam').then(function(response){
+                $scope.teamAndGame.retrieveData(response.data);
+                $scope.user = $scope.teamAndGame.gameData();
+            });
+
+        }else{
+            $scope.user = $scope.teamAndGame.gameData();
+        }
+    };
+
+    $scope.getUser();
+
+    $scope.loadCarryEquip = function(){
+        $scope.carryEquip=$scope.equipFactory.currentData();
+        console.log("THIS IS SELECTED EQUIP", $scope.carryEquip);
+        $scope.carrydescription = $scope.carryEquip.description;
+        $scope.carryname = $scope.carryEquip.name;
+        $scope.carryhand = $scope.carryEquip.hand;
+        $scope.carrygold = $scope.carryEquip.gold;
+        $scope.carrysell_gold = $scope.carryEquip.sale_cost;
+        $scope.carryid = $scope.carryEquip.id;
+        $scope.carrycategory = $scope.carryEquip.category;
+        $scope.carrytype = $scope.carryEquip.type;
+        $scope.carrydice = $scope.carryEquip.dice;
+
+        if($scope.carryEquip.exhaust == true){
+            $scope.carryexhaust = 'Yes';
+        }else {
+            $scope.carryexhaust = 'No';
+        }
+
+    };
+
+
+    //User interactive functions
+    $scope.unequip = function(){
+        console.log("Unequip function");
+        var call = $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character);
+        console.log("call", call);
+
+        switch ($scope.carryname) {
+            case ($scope.carryname=call.syndraelrh):
+                $scope.carryhand='right_hand';
+                break;
+
+            case ($scope.carryname = call.syndraellh):
+                $scope.carryhand='left_hand';
+                break;
+
+            case ($scope.carryname = call.syndraelbh):
+                $scope.carryhand='two_hand';
+                break;
+
+            case ($scope.carryname = call.syndraelaccessory1):
+                $scope.carryhand='acc1';
+                break;
+
+            case ($scope.carryname = call.syndraelaccessory2):
+                $scope.carryhand='acc2';
+                break;
+
+            case ($scope.carryname = call.syndraelarmor):
+               $scope.carryhand='armor';
+                break;
+
+            default:
+                console.log("Switch error");
+        }
+
+
+        console.log("This is $scope.carryhand", $scope.carryhand);
+
+        $http.post('/equip/unequip', {params:{"team": $scope.user, "game": $scope.game, "character": $scope.character, "id": $scope.carryid, "name": $scope.carryname, "hand": $scope.carryhand}}).then(function(){
+            console.log("Equipment Removed");
+        });
+        $location.url('/main');
+    };
+
+
+    //set up function calls
+    $scope.loadCarryEquip();
+    $scope.goldFactory.goldData($scope.user, $scope.game, $scope.character);
+    $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character);
+    console.log("allEquip", $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character));
+    $scope.equipFactory.allWeapon($scope.user, $scope.game, $scope.character);console.log("AllWeaon", $scope.equipFactory.allWeapon($scope.user, $scope.game, $scope.character));
 
 }]);
 
@@ -611,9 +925,16 @@ myApp.config(['$routeProvider', function($routeProvider){
 
         when('/bankequip', {
             templateUrl: "/assets/views/bankequip.html",
-            controller: "EquipmentController",
+            controller: "BankEquipmentController",
             css: "/assets/styles/equip_styles.css"
         }).
+
+        when('/carryequip', {
+            templateUrl: "/assets/views/carryequip.html",
+            controller: "CarryEquipmentController",
+            css: "/assets/styles/equip_styles.css"
+        }).
+
         otherwise({
             redirectTo: 'login'
         })

@@ -68,6 +68,25 @@ router.get('/getBankequip', function(req, res){
 
 });
 
+router.get('/getEquippedData', function(req, res){
+    var game = req.query.game;
+    var team = req.query.team;
+    var character = req.query.character;
+    var currentequip = [];
+    pg.connect(connectionString, function(err, client){
+        var query = client.query("SELECT * FROM " + team + game + "_equip WHERE character=$1 AND equipped='true'",
+        [character]);
+        query.on('row', function(row){
+            currentequip.push(row);
+        });
+
+        query.on('end', function(){
+            client.end();
+            return res.json(currentequip);
+        });
+    });
+});
+
 router.get('/syndraelEquip', function(req, res){
     var game = req.query.game;
     var character = req.query.character;

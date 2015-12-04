@@ -58,20 +58,60 @@ router.post('/newEquip', function(req, res){
 });
 
 router.post('/findEquip', function(req, res){
+    console.log("YOU ARE IN FINDEQUIP");
     var team=req.body['params']['team'];
+    console.log("this is the team you are looking for", team);
     var character = req.body['params']['character'];
+    console.log("This is the character you are looking for", character);
     var game = req.body['params']['game'];
+    console.log("This is the game you are looking for", game);
     var id = req.body['params']['id'];
+    console.log("This is the id you are looking for", id);
 
     pg.connect(connectionString, function(err, client){
         client.query("UPDATE " + team + game + "_equip SET character=$1 WHERE equip_id=$2",
         [character, id],
         function(err){
             if(err) console.log(err);
+            console.log("findEquip connection complete");
             client.end();
         });
     });
     res.send("Equipment found");
+});
+
+router.post('/unequip', function(req, res){
+    var team = req.body['params']['team'];
+    console.log("This is team", team);
+    var character = req.body['params']['character'];
+    console.log("This is character", character);
+    var game = req.body['params']['game'];
+    console.log("This is game", game);
+    var id = req.body['params']['id'];
+    console.log("This is id", id);
+    var name = req.body['params']['name'];
+    console.log("This is name", name);
+    var hand = req.body['params']['hand'];
+    console.log("This is hand", hand);
+
+    pg.connect(connectionString, function(err, client){
+        client.query("UPDATE " + team + game + "_characters SET " + hand + "='none' WHERE character_name=$1",
+        [character],
+        function(err){
+            if(err)console.log(err);
+            client.end();
+        });
+    });
+
+    pg.connect(connectionString, function(err, client){
+        client.query("UPDATE " + team + game + "_equip SET equipped='false' WHERE equip_id=$1",
+        [id],
+        function(err){
+            if(err) console.log(err);
+            client.end();
+        });
+    });
+    res.send("Unequip complete");
 });
 
 router.get('/equipJoin', function(req, res){

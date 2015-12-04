@@ -1,11 +1,12 @@
+
 <div class="wrapper col-md-offset-2 col-md-8" ng-controller="EquipmentController">
     <header>
-        <h2>{{equipname}}</h2>
+        <h2>{{carryname}}</h2>
     </header>
 
     <div class="description">
         <div class="description-box">
-            <p>{{equipdescription}}</p>
+            <p>{{carrydescription}}</p>
         </div>
     </div>
 
@@ -15,18 +16,15 @@
     <div class="bottom-equip">
         <div class="equip-bottom-left">
             <p></p>
-            <p>Exhaustable: {{equipexhaust}}</p>
-            <p>Dice: {{equipdice}}</p>
-            <p>{{equipcategory}}</p>
-            <p>Gold: {{equipgold}}</p>
+            <p>Exhaustable: {{carryexhaust}}</p>
+            <p>Dice: {{carrydice}}</p>
+            <p>{{carrycategory}}</p>
+            <p>Gold: {{carrygold}}</p>
         </div>
 
         <div class="equip-bottom-right">
-            <p ng-click="buyEquip(equipgold)">Buy</p>
-            <p ng-click="findEquip()">Find</p>
+            <p ng-click="unequip()">Unequip</p>
         </div>
     </div>
 
 </div>
-
-

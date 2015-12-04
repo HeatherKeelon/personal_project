@@ -4,11 +4,14 @@ myApp.factory('EquipFactory', ["$http", function($http){
     var bankequip = {};
     var currentequip = {};
     var total;
+    var allbankequip = {};
+    var selectcurrentequip = {};
 
     //Current equipment on character from the main page.
     var getCurrentEquip = function (){
         return currentequip;
     };
+
 
     //Sets up current equipment.
     var currentEquip = function(team, game, character){
@@ -95,6 +98,7 @@ myApp.factory('EquipFactory', ["$http", function($http){
         });
     };
 
+//populates the selected piece of equipment for the unequipped dropdown.
     var getData = function(name){
         //var promise = $http.get('/games/teamandgame').then(function(response){
         //    console.log("this is response.data", response.data.chosen_game);
@@ -105,14 +109,46 @@ myApp.factory('EquipFactory', ["$http", function($http){
         return bankequip;
     };
 
+    //populates the selected bank equipment that goes into bankequip.html
+
+    var getBank = function(name){
+        allbankequip = name;
+        console.log("This is all bankequip factory", allbankequip);
+        return allbankequip;
+    };
+
+    //populates the selected current piece of equipment that goes into carryequip.html.
+
+    var updateCurrentEquip = function(name){
+        selectcurrentequip = name;
+        console.log("SELECTCURRENTEQUIP from factory", selectcurrentequip);
+        return selectcurrentequip;
+    };
+
     var publicApi= {
         retrieveData: function(name){
             //console.log("In retrieveData");
             return getData(name);
         },
 
+        retrieveBank: function(name){
+            return getBank(name);
+        },
+
+        retrieveCurrent: function(name){
+            return updateCurrentEquip(name);
+        },
+
         gameData: function(){
             return bankequip;
+        },
+
+        bankData: function(){
+            return allbankequip;
+        },
+
+        currentData: function(){
+            return selectcurrentequip;
         },
 
         allEquip: function(team, game, character){
@@ -120,7 +156,7 @@ myApp.factory('EquipFactory', ["$http", function($http){
         },
 
         getEquip: function(){
-            return getCurrentEquip();
+            return currentequip;
         },
 
         getTotalWeapon: function(){
