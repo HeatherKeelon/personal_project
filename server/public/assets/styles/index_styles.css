@@ -11,3 +11,645 @@ body {
 h1, h2, h3, h4 {
     font-family: Lithos, Geneva, sans-serif;
 }
+
+/*.outer-div {*/
+/*background-color: darkblue;*/
+/*box-shadow: inset 0 0 10px #000000;*/
+/*height: 100%;*/
+/*}*/
+
+main {
+    display: block;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0;
+    text-align: center;
+}
+
+.wrap {
+    background-color: #b9babb;
+}
+
+@media (min-width:320px) {
+    main {margin: 0;}
+}
+
+@media (min-width:961px){
+    main {margin-left: 20px;}
+}
+
+.acts-wrap p {
+    display: inline-block;
+}
+
+.hero {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.overlord {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+.acts-wrap h3 {
+    text-align: center;
+}
+
+@media (min-width:320px) {
+    .right-pane-top {
+        float: right;
+        border: 2px solid black;
+        border-radius: 20px;
+        padding: 0;
+        margin: 0;
+        width: 50%;
+        text-align: center;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        font-size: 12px;
+        background-color: #e1e4e6;
+    }
+}
+
+@media (min-width:961px){
+    .right-pane-top {
+        float: right;
+        border: 2px solid black;
+        border-radius: 20px;
+        padding: 0;
+        margin: 0;
+        width: 50%;
+        text-align: center;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        background-color: #e1e4e6;
+        font-size: 16px;
+    }
+}
+
+
+
+
+#wrapperOne {
+    padding: 0;
+    margin: 0;
+
+}
+
+
+#wrapperTwo {
+    margin: 0;
+    padding:0;
+    height: 45px;
+
+}
+
+.space-div {
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+.act-one {
+    width: 10%;
+    border: 2px solid black;
+    border-radius: 100%;
+    float: left;
+    text-align: center;
+    margin: 0;
+    height: 45px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    background-color: #e1e4e6;
+
+}
+
+.act-two {
+    width: 10%;
+    border: 2px solid black;
+    border-radius: 100%;
+    float: left;
+    text-align: center;
+    margin: 0;
+    height: 45px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    background-color: #e1e4e6;
+}
+
+@media (min-width:320px) {
+    .top-pane {
+        width: 90%;
+        border: 2px solid black;
+        border-radius: 20px;
+        float: right;
+        text-align: center;
+        margin: 0;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        font-size: 12px;
+        background-color: #e1e4e6;
+    }
+}
+
+@media (min-width:961px){
+    .top-pane {
+        width: 90%;
+        border: 2px solid black;
+        border-radius: 20px;
+        float: right;
+        text-align: center;
+        margin: 0;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        background-color: #e1e4e6;
+        font-size: 16px;
+    }
+}
+
+@media (min-width:320px) {
+    .left-pane {
+        float: left;
+        width: 45%;
+        border: 2px solid black;
+        border-radius: 20px;
+        text-align: center;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        font-size: 12px;
+        background-color: #e1e4e6;
+    }
+}
+
+@media (min-width:961px){
+    .left-pane {
+        float: left;
+        width: 45%;
+        border: 2px solid black;
+        border-radius: 20px;
+        text-align: center;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        background-color: #e1e4e6;
+        font-size: 16px;
+    }
+}
+
+@media (min-width:320px) {
+    .right-pane {
+        float: right;
+        width: 45%;
+        border: 2px solid black;
+        border-radius: 20px;
+        text-align: center;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        font-size: 12px;
+        background-color: #e1e4e6;
+    }
+}
+
+@media (min-width:961px){
+    .right-pane {
+        float: right;
+        width: 45%;
+        border: 2px solid black;
+        border-radius: 20px;
+        text-align: center;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        background-color: #e1e4e6;
+        font-size: 16px;
+    }
+}
+
+
+
+#wrapperThree {
+    /*border-bottom: 2px solid black;*/
+    margin: 0;
+    padding:0;
+}
+
+.hero-win {
+    width: 20px;
+    height: auto;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+.overlord-win {
+    width: 20px;
+    height: auto;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+.hero-pic {
+    width: 25px;
+    height: auto;
+    padding-right: 10px;
+}
+
+.overlord-pic {
+    width: 25px;
+    height: auto;
+    padding-left: 10px;
+}
+
+.interlude-final {
+    float: left;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    width:30%;
+    height: 45px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    background-color: #e1e4e6;
+}
+
+@media (min-width:320px) {
+    .final-panes {
+        float: right;
+        border: 2px solid black;
+        border-radius: 20px;
+        text-align: center;
+        width: 70%;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        font-size: 12px;
+        background-color: #e1e4e6;
+    }
+}
+
+@media (min-width:961px){
+    .final-panes {
+        float: right;
+        border: 2px solid black;
+        border-radius: 20px;
+        text-align: center;
+        width: 70%;
+        height: 45px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        background-color:#e1e4e6;
+        font-size: 16px;
+    }
+}
+
+
+
+.main-boxes {
+    height: 90px;
+}
+
+.main-character-name {
+    font-weight: bold;
+}
+
+.firstbloodyellow {
+    background-color: yellow;
+}
+
+#syndrael {
+    color: darkred;
+}
+
+.outer-wrapper {
+    background-color: darkred;
+    box-shadow: inset 0 0 20px #000000;
+    height: 100%;
+}
+
+.wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-image: url(../../assets/pictures/paper.jpg);
+    box-shadow: inset 0 0 20px #000000;
+}
+
+.to-acts a{
+    color: darkred;
+}
+
+.outer-wrapper h3 {
+    margin-top: 0;
+}
+
+.outer-wrapper ul {
+    list-style-type: none;
+    display: inline-block;
+    float: left;
+}
+
+/*.wrapper {*/
+/*width: 50%;*/
+/*}*/
+
+.left-side {
+    width: 50%;
+    float: left;
+}
+
+.right-side {
+    width: 50%
+float: right;
+}
+
+.bottom-feats, .bottom-stats, .conditions-links {
+    width: 100%;
+}
+
+
+.character-symbol {
+    width: 70px;
+    height: auto;
+    margin-bottom: 0;
+}
+
+.character-image {
+    text-align: center;
+}
+
+.fatigue-stamina {
+    width: 100%;
+}
+
+
+
+@media (min-width:320px) {
+    .stamina-fatigue-image {
+        width: 20%;
+        float: left;
+        padding-right: 5px;
+    }
+}
+
+@media (min-width:961px){
+    .stamina-fatigue-image {
+        float: left;
+        width: 50%;
+        padding-right: 5px;
+    }
+}
+
+@media (min-width:320px) {
+    .counter {
+        width: 80%;
+        float: right;
+    }
+}
+
+@media (min-width:961px){
+    .counter {
+        width: 50%;
+        float: right;
+    }
+}
+
+
+
+.stamina-image {
+    width: 25px;
+    height: 23px;
+    float: right;
+}
+
+.fatigue-image {
+    width: 25px;
+    height: 30px;
+    float: right;
+    padding-top: 5px;
+
+}
+
+#stamina, #fatigue {
+    width: 30px;
+    height: 30px;
+    float: left;
+    border: 1px solid black;
+}
+
+.stamina-plus, .stamina-minus, .fatigue-plus, .fatigue-minus {
+    float: left;
+    width: 20px;
+    height: 30px;
+    text-align: center;
+    margin: 0 5px 0 5px;
+}
+
+.reset-button {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
+.reset {
+    background-color: darkred;
+    color: white;
+}
+
+.unequipped-drop {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.bankequip-drop {
+    width: 100%;
+    text-align: center;
+}
+
+.unequipped-drop p, .bankequip-drop p {
+    margin-bottom: 1px;
+}
+
+.heroic-feat {
+    width: 50%;
+    text-align: center;
+    margin-top: 20px;
+    float: left;
+}
+
+.heroic-ability {
+    width: 50%;
+    text-align: center;
+    margin-top: 20px;
+    float: right;
+}
+
+.heroic-feat p {
+    color: darkred;
+}
+
+.heroic-ability p {
+    color: darkred;
+}
+
+.might-knowledge {
+    width: 50%;
+    text-align: right;
+    float: left;
+}
+
+.might-knowledge-p {
+    width: 80%;
+}
+
+.conditions {
+    text-align: left;
+    width: 30%;
+    float: left;
+}
+
+.right-hand, .left-hand, .both-hands, .accessory1, .accessory2, .armor {
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.equipped-label {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.willpower-awareness {
+    width: 50%;
+    text-align: left;
+    float: right;
+}
+
+.willpower-awareness-p {
+    width: 80%;
+}
+
+.skills-items {
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+.outer-wrapper {
+    height: 100%;
+    background-color: darkred;
+    box-shadow: inset 0 0 20px #000000;
+}
+
+.wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    background-image: url(../../assets/pictures/paper.jpg);
+    box-shadow: inset 0 0 20px #000000;
+}
+
+header {
+    text-align: center;
+}
+
+.description {
+    text-align: center;
+    width: 100%;
+
+}
+
+.description-box {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.bottom-equip {
+    width: 100%;
+
+}
+
+.equip-bottom-left {
+    width: 50%;
+    float: left;
+    display: inline-block;
+    height: 100%;
+    vertical-align: bottom;
+}
+
+.equip-bottom-right {
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+.wrapper-div {
+    text-align: center;
+}
+
+.new-game{
+    border: 1px solid black;
+    background-color: #b9c2d5;
+}
+
+.btn-box {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.game-box {
+    margin-bottom: 20px;
+    vertial-align: bottom;
+
+}
+
+.log-in-wrapper {
+    text-align: center;
+}
+
+footer {
+    text-align: left;
+}
+
+.log-in-wrapper h1, h4 {
+    color: darkblue;
+}
+
+input {
+    border: 1px solid #b9c2d5;
+    border-radius: 5px;
+}
+
+.submit {
+    background-color: #b9c2d5;
+    color: white;
+}
+
+a:hover {
+    color: darkred;
+}

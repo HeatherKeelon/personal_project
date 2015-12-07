@@ -23,8 +23,11 @@ router.get('/getTeam', function(req, res) {
 
 router.get('/getGold', function(req, res){
     var team= req.query.team;
+    console.log("This is the team database is pulling", team);
     var game= req.query.game;
+    console.log("This is game database is pulling", game);
     var character = req.query.character;
+    console.log("This is character database is pullsing", character);
     pg.connect(connectionString, function(err, client){
         var gold;
         client.query("SELECT gold FROM " + team + game + "_characters WHERE character_name=$1",

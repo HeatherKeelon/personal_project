@@ -19,17 +19,11 @@
     color: darkred;
 }
 
-
-
-h1, h2, h3, h4 {
-    font-family: Lithos, Geneva, sans-serif;
-}
-
-h3 {
+.outer-wrapper h3 {
     margin-top: 0;
 }
 
-ul {
+.outer-wrapper ul {
     list-style-type: none;
     display: inline-block;
     float: left;

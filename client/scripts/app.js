@@ -1,6 +1,7 @@
 var myApp = angular.module("myApp", ['ngRoute']);
 
-myApp.controller('GameController', ['$scope', '$http', 'GoldFactory', 'ExperienceFactory', function($scope, $http, GoldFactory, ExperienceFactory){
+myApp.controller('GameController', ['$scope', '$http', 'TeamAndGame','GoldFactory', 'ExperienceFactory', function($scope, $http, TeamAndGame, GoldFactory, ExperienceFactory){
+    $scope.teamAndGame = TeamAndGame;
     $scope.goldFactory=GoldFactory;
     $scope.expFactory=ExperienceFactory;
     $scope.user = {};
@@ -13,29 +14,46 @@ myApp.controller('GameController', ['$scope', '$http', 'GoldFactory', 'Experienc
 
 
     //Functions for games.html
+    //
+    //$scope.setGame = function(cname, number){
+    //    document.cookie = cname + "=" + number + ";";
+    //    console.log(document.cookie);
+    //};
+    //
+    //$scope.getCookie = function (cname) {
+    //    var name = cname + "=";
+    //    var ca = document.cookie.split(';');
+    //    for(var i=0; i<ca.length; i++) {
+    //        var c = ca[i];
+    //        while (c.charAt(0)==' ') c = c.substring(1);
+    //        if (c.indexOf(name) == 0){
+    //            $scope.cookie=c.substring(name.length,c.length);
+    //            console.log("Cookie inside getCookie", $scope.cookie);
+    //            return $scope.cookie;
+    //        }
+    //
+    //    }
+    //    return "";
+    //};
+    //$scope.getCookie('game');
 
-    $scope.setGame = function(cname, number){
-        document.cookie = cname + "=" + number + ";";
-        console.log(document.cookie);
+    $scope.teamChoice=function(game){
+        $scope.teamAndGame.setGameNumber(game);
+        $scope.cookie = $teamAndGame.getGame();
+        $scope.goldFactory.goldData($scope.user, $scope.cookie, $scope.character);
+        $scope.expFactory.expData($scope.user, $scope.cookie, $scope.character);
+        $http.post('/games/retrieveteam').then(function(response){
+            //console.log(response.data['team_name']);
+            $scope.user = response.data['team_name'];
+            $scope.username = response.data['username'];
+            console.log("User", $scope.user);
+            console.log("Game", $scope.cookie);
+
+            console.log("This is username", $scope.username);
+
+        });
+        console.log("This is cookie", $scope.cookie);
     };
-
-    $scope.getCookie = function (cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1);
-            if (c.indexOf(name) == 0){
-                $scope.cookie=c.substring(name.length,c.length);
-                console.log("Cookie inside getCookie", $scope.cookie);
-                return $scope.cookie;
-            }
-
-        }
-        return "";
-    };
-    $scope.getCookie('game');
-
 
     $scope.getTeam = function(){
         //console.log("you are in getTeam");
@@ -45,8 +63,7 @@ myApp.controller('GameController', ['$scope', '$http', 'GoldFactory', 'Experienc
             $scope.username = response.data['username'];
             console.log("User", $scope.user);
             console.log("Game", $scope.cookie);
-            $scope.goldFactory.goldData($scope.user, $scope.cookie, $scope.character);
-            $scope.expFactory.expData($scope.user, $scope.cookie, $scope.character);
+
             console.log("This is username", $scope.username);
 
         });
@@ -129,40 +146,46 @@ myApp.controller('ActsController', ['$scope', '$http', 'TeamAndGame', 'GoldFacto
     $scope.syndraelExp;
 
 
-    $scope.syndraelGold=$scope.goldFactory.giveGold();
+
     $scope.syndraelExp=$scope.expFactory.giveExp();
     console.log("This is syndraelGold", $scope.syndraelGold);
 
-    $scope.getCookie = function (cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1);
-            if (c.indexOf(name) == 0){
-                $scope.cookie=c.substring(name.length,c.length);
-                console.log("Cookie inside getCookie", $scope.cookie);
-                return $scope.cookie;
-            }
-
-        }
-        return "";
-    };
-    $scope.getCookie('game');
-    console.log("This is game cookie", $scope.cookie);
+    //$scope.getCookie = function (cname) {
+    //    var name = cname + "=";
+    //    var ca = document.cookie.split(';');
+    //    for(var i=0; i<ca.length; i++) {
+    //        var c = ca[i];
+    //        while (c.charAt(0)==' ') c = c.substring(1);
+    //        if (c.indexOf(name) == 0){
+    //            $scope.cookie=c.substring(name.length,c.length);
+    //            console.log("Cookie inside getCookie", $scope.cookie);
+    //            return $scope.cookie;
+    //        }
+    //
+    //    }
+    //    return "";
+    //};
+    //$scope.getCookie('game');
+    //console.log("This is game cookie", $scope.cookie);
 
 
     $scope.getTeam = function(){
+        $scope.cookie = $scope.teamAndGame.getGame();
         if ($scope.teamAndGame.gameData() == undefined){
             console.log("You are in the if statement");
             $http.get('/acts/getTeam').then(function(response){
                 console.log("This is response from database", response.data);
                 $scope.teamAndGame.retrieveData(response.data);
                 $scope.user = $scope.teamAndGame.gameData();
+                $scope.goldFactory.goldData($scope.user, $scope.cookie, $scope.character);
+                $scope.syndraelGold=$scope.goldFactory.giveGold();
+                $scope.expFactory.expData($scope.user, $scope.cookie, $scope.character);
             });
 
         }else{
             $scope.user = $scope.teamAndGame.gameData();
+            $scope.goldFactory.goldData($scope.user, $scope.cookie, $scope.character);
+            $scope.syndraelGold=$scope.goldFactory.giveGold();
         }
 
     };
@@ -186,6 +209,9 @@ myApp.controller('ActsController', ['$scope', '$http', 'TeamAndGame', 'GoldFacto
     };
 
     $scope.fatgoblinHeroes = function(){
+        console.log("This is user", $scope.user);
+        console.log("This is cookie", $scope.cookie);
+        console.log("This is character", $scope.character);
         $scope.expFactory.postExp($scope.user, $scope.cookie, $scope.character, '1');
         $scope.syndraelExp=$scope.expFactory.giveExp();
         console.log("This is experience after fatgoblin", $scope.syndraelExp);
@@ -204,6 +230,8 @@ myApp.controller('ActsController', ['$scope', '$http', 'TeamAndGame', 'GoldFacto
         $scope.expFactory.postExp($scope.user, $scope.cookie, $scope.character, '1');
         $scope.syndraelExp=$scope.expFactory.giveExp();
         console.log("This is experience after fatgoblin", $scope.syndraelExp);
+        alert("The True Shot has been added to your available equipment. Got to bank equipment and select 'find.'");
+
 
         $http.post('/acts/postNewEquip', {params:{"team": $scope.user, "game": $scope.cookie, "equip": 'True Shot', "type": '2', "description": '+3 Range  Bolt: Move the target 1 space.  Bolt: +2 damage.', "cost": '0', "sale_cost": '0', 'dice': 'blue, red, yellow', "exhaust": false, "equipped": false, category: "Bow"}}).then(function(){
             console.log("equipment posted");
@@ -263,25 +291,25 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
     $scope.currentequipment = {};
 
 
-
+    $scope.game = $scope.teamAndGame.getGame();
 
     //Page set-up functions
 
-    $scope.getCookie = function (cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1);
-            if (c.indexOf(name) == 0){
-                $scope.game=c.substring(name.length,c.length);
-                return $scope.game;
-            }
-
-        }
-        return "";
-    };
-    $scope.getCookie('game');
+    //$scope.getCookie = function (cname) {
+    //    var name = cname + "=";
+    //    var ca = document.cookie.split(';');
+    //    for(var i=0; i<ca.length; i++) {
+    //        var c = ca[i];
+    //        while (c.charAt(0)==' ') c = c.substring(1);
+    //        if (c.indexOf(name) == 0){
+    //            $scope.game=c.substring(name.length,c.length);
+    //            return $scope.game;
+    //        }
+    //
+    //    }
+    //    return "";
+    //};
+    //$scope.getCookie('game');
 
     $scope.getUser = function () {
         if ($scope.teamAndGame.gameData() == undefined){
@@ -550,21 +578,22 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
 
 //Set up functions
 
-    $scope.getCookie = function (cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1);
-            if (c.indexOf(name) == 0){
-                $scope.game=c.substring(name.length,c.length);
-                return $scope.game;
-            }
-
-        }
-        return "";
-    };
-    $scope.getCookie('game');
+    $scope.game = $scope.teamAndGame.getGame();
+    //$scope.getCookie = function (cname) {
+    //    var name = cname + "=";
+    //    var ca = document.cookie.split(';');
+    //    for(var i=0; i<ca.length; i++) {
+    //        var c = ca[i];
+    //        while (c.charAt(0)==' ') c = c.substring(1);
+    //        if (c.indexOf(name) == 0){
+    //            $scope.game=c.substring(name.length,c.length);
+    //            return $scope.game;
+    //        }
+    //
+    //    }
+    //    return "";
+    //};
+    //$scope.getCookie('game');
 
     $scope.getUser = function () {
         if ($scope.teamAndGame.gameData() == undefined){
@@ -616,6 +645,7 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
 
         $http.post('/equip/removeEquip', {params:{"team": $scope.user, "game": $scope.game, "character": $scope.character, "equip": $scope.equipid}}).then(function(response){
             //console.log("Equip updated");
+            $scope.goldFactory.giveGold();
             $location.url('/main');
         });
 
@@ -725,22 +755,23 @@ myApp.controller('BankEquipmentController', ['$scope', '$http', 'TeamAndGame', '
     $scope.equipdice;
 
 //Set up functions
+    $scope.game = $scope.teamAndGame.getGame();
 
-    $scope.getCookie = function (cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1);
-            if (c.indexOf(name) == 0){
-                $scope.game=c.substring(name.length,c.length);
-                return $scope.game;
-            }
-
-        }
-        return "";
-    };
-    $scope.getCookie('game');
+    //$scope.getCookie = function (cname) {
+    //    var name = cname + "=";
+    //    var ca = document.cookie.split(';');
+    //    for(var i=0; i<ca.length; i++) {
+    //        var c = ca[i];
+    //        while (c.charAt(0)==' ') c = c.substring(1);
+    //        if (c.indexOf(name) == 0){
+    //            $scope.game=c.substring(name.length,c.length);
+    //            return $scope.game;
+    //        }
+    //
+    //    }
+    //    return "";
+    //};
+    //$scope.getCookie('game');
 
     $scope.getUser = function () {
         if ($scope.teamAndGame.gameData() == undefined){
@@ -803,6 +834,7 @@ myApp.controller('BankEquipmentController', ['$scope', '$http', 'TeamAndGame', '
         $scope.equipcharacter_gold= $scope.equipcharacter_gold - gold;
         console.log("This is character_gold after sale", $scope.equipcharacter_gold);
         $scope.goldFactory.postGold($scope.user, $scope.game, $scope.character, $scope.equipcharacter_gold);
+        $scope.goldFactory.giveGold();
 
         $scope.findEquip();
 
@@ -837,22 +869,22 @@ myApp.controller('CarryEquipmentController', ['$scope', '$http', 'TeamAndGame', 
     $scope.carrydice;
 
 //Set up functions
-
-    $scope.getCookie = function (cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1);
-            if (c.indexOf(name) == 0){
-                $scope.game=c.substring(name.length,c.length);
-                return $scope.game;
-            }
-
-        }
-        return "";
-    };
-    $scope.getCookie('game');
+$scope.game = $scope.teamAndGame.getGame();
+    //$scope.getCookie = function (cname) {
+    //    var name = cname + "=";
+    //    var ca = document.cookie.split(';');
+    //    for(var i=0; i<ca.length; i++) {
+    //        var c = ca[i];
+    //        while (c.charAt(0)==' ') c = c.substring(1);
+    //        if (c.indexOf(name) == 0){
+    //            $scope.game=c.substring(name.length,c.length);
+    //            return $scope.game;
+    //        }
+    //
+    //    }
+    //    return "";
+    //};
+    //$scope.getCookie('game');
 
     $scope.getUser = function () {
         if ($scope.teamAndGame.gameData() == undefined){
@@ -952,8 +984,8 @@ myApp.controller('CarryEquipmentController', ['$scope', '$http', 'TeamAndGame', 
 myApp.config(['$routeProvider', function($routeProvider){
     $routeProvider.
         when('/login', {
-            templateUrl: "/assets/views/login.html",
-            css: "/assets/styles/login_styles.css"
+            templateUrl: "/assets/views/login.html"
+            //css: "/assets/styles/login_styles.css"
         }).
 
         when('/failure', {
@@ -965,43 +997,43 @@ myApp.config(['$routeProvider', function($routeProvider){
         }).
 
         when('/register', {
-            templateUrl: "/assets/views/register.html",
-            css: "/assets/views/register_styles.css"
+            templateUrl: "/assets/views/register.html"
+            //css: "/assets/views/register_styles.css"
         }).
 
         when('/games', {
             templateUrl: "/assets/views/games.html",
-            controler: "GamesController",
-            css: "/assets/styles/games_styles.css"
+            controler: "GamesController"
+            //css: "/assets/styles/games_styles.css"
         }).
 
         when('/acts', {
             templateUrl: "/assets/views/acts.html",
-            controller: "ActsController",
-            css: "/assets/styles/acts_styles.css"
+            controller: "ActsController"
+            //css: "/assets/styles/acts_styles.css"
         }).
 
         when('/main', {
             templateUrl: "/assets/views/main_syndrael.html",
-            controller: "MainCharacterController",
-            css: "/assets/styles/main_syndrael_styles.css"
+            controller: "MainCharacterController"
+            //css: "/assets/styles/main_syndrael_styles.css"
         }).
         when('/equip', {
             templateUrl: "/assets/views/equip.html",
-            controller: "EquipmentController",
-            css: "/assets/styles/equip_styles.css"
+            controller: "EquipmentController"
+            //css: "/assets/styles/equip_styles.css"
         }).
 
         when('/bankequip', {
             templateUrl: "/assets/views/bankequip.html",
-            controller: "BankEquipmentController",
-            css: "/assets/styles/equip_styles.css"
+            controller: "BankEquipmentController"
+            //css: "/assets/styles/equip_styles.css"
         }).
 
         when('/carryequip', {
             templateUrl: "/assets/views/carryequip.html",
-            controller: "CarryEquipmentController",
-            css: "/assets/styles/equip_styles.css"
+            controller: "CarryEquipmentController"
+            //css: "/assets/styles/equip_styles.css"
         }).
 
         otherwise({

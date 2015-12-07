@@ -2,7 +2,7 @@
     display: none !important;
 }
 
-body {
+.log-in-wrapper {
     text-align: center;
 }
 
@@ -10,7 +10,7 @@ footer {
     text-align: left;
 }
 
-h1, h4 {
+.log-in-wrapper h1, h4 {
     color: darkblue;
 }
 
@@ -19,7 +19,7 @@ input {
     border-radius: 5px;
 }
 
-.btn {
+.submit {
     background-color: #b9c2d5;
     color: white;
 }

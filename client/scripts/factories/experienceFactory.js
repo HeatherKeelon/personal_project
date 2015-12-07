@@ -1,6 +1,6 @@
 myApp.factory('ExperienceFactory', ["$http", function($http){
 
-    var experience=undefined;
+    var experience=0;
 
 
 

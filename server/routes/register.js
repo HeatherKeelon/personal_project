@@ -13,7 +13,6 @@ var connectionString = process.env.DATABASE_URL   || 'postgres://localhost:5432/
 
 router.get('/', function (req, res, next){
     res.sendFile(path.resolve(__dirname, '../public/views/register.html'));
-    //res.redirect('#register');
 });
 
 router.post('/', function(req, res, next){
@@ -72,7 +71,6 @@ router.post('/', function(req, res, next){
             }else{
                 console.log("user name exists");
                 res.redirect('/assets/views/usertaken.html');
-                //res.redirect('#usertaken');
             }
         });
 

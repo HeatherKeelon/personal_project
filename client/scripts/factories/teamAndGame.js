@@ -3,6 +3,9 @@ myApp.factory('TeamAndGame', ["$http", function($http){
 var team = undefined;
 var gameNumber = 0;
 
+    var setGame= function(game){
+        gameNumber=game;
+    };
 
     var getData = function(name){
         //var promise = $http.get('/games/teamandgame').then(function(response){
@@ -15,6 +18,15 @@ var gameNumber = 0;
     };
 
     var publicApi= {
+
+        getGame: function(){
+            return gameNumber;
+        },
+
+        setGameNumber: function(game){
+            return setGame(game);
+        },
+
         retrieveData: function(name){
             console.log("In retrieveData");
             return getData(name);
