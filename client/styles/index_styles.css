@@ -1,0 +1,13 @@
+body {
+    font-size: 16px;
+
+    font-family: Minion, Palino, serif;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+h1, h2, h3, h4 {
+    font-family: Lithos, Geneva, sans-serif;
+}

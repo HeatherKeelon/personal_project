@@ -1,7 +1,29 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 body {
     text-align: center;
 }
 
 footer {
     text-align: left;
+}
+
+h1, h4 {
+    color: darkblue;
+}
+
+input {
+    border: 1px solid #b9c2d5;
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: #b9c2d5;
+    color: white;
+}
+
+a:hover {
+    color: darkred;
 }

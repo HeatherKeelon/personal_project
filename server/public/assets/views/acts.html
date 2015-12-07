@@ -1,5 +1,6 @@
 
-<main class="wrapper col-md-6" ng-controller="ActsController">
+<div class="outer-div col-md-12 ng-cloak">
+<main class="wrap col-md-6 col-md-offset-3" ng-controller="ActsController">
     <div id="wrapperOne">
         <h3>The Shadow Rune</h3>
         <div class="icon row">
@@ -10,12 +11,12 @@
 
     <br>
     <div id="wrapperTwo" class="main-boxes">
-        <div class="right-pane-top col-md-3"><img src="../../assets/pictures/shield.png" class="hero-pic">First Blood<img src="../../assets/pictures/skull.png" class="overlord-pic"></div>
+        <div class="right-pane-top col-md-3"><img src="../../assets/pictures/shield.png" ng-click="firstBloodHeroes()" class="hero-pic">First Blood<img ng-click="firstBloodHeroes()" src="../../assets/pictures/skull.png" class="overlord-pic"></div>
     </div>
 
     <div id="wrapperThree" class="main-boxes">
-       <br><br> <div class="act-one">I</div><div class="top-pane"><img src="../../assets/pictures/shield.png" class="hero-pic">A Fat Goblin<img src="../../assets/pictures/skull.png" class="overlord-pic"></div>
-        <div class="act-two">II</div><div class="left-pane"><img src="../../assets/pictures/shield.png" class="hero-pic">The Monster's Hoard<img src="../../assets/pictures/skull.png" class="overlord-pic"></div><div class="right-pane"><img src="../../assets/pictures/shield.png" class="hero-pic">Frozen Spire<img src="../../assets/pictures/skull.png" class="overlord-pic"></div>
+       <br><br> <div class="act-one">I</div><div class="top-pane"><img ng-click="fatgoblinHeroes()" src="../../assets/pictures/shield.png" class="hero-pic">A Fat Goblin<img ng-click="firstBloodHeroes()" src="../../assets/pictures/skull.png" class="overlord-pic"></div>
+        <div class="act-two">II</div><div class="left-pane"><img ng-click="monstersHoardHeroes()" src="../../assets/pictures/shield.png" class="hero-pic">The Monster's Hoard<img src="../../assets/pictures/skull.png" class="overlord-pic"></div><div class="right-pane"><img src="../../assets/pictures/shield.png" class="hero-pic">Frozen Spire<img src="../../assets/pictures/skull.png" class="overlord-pic"></div>
     </div>
 
     <div id="wrapperFour" class="main-boxes">
@@ -74,9 +75,10 @@
         </div>
 
         <div class="col-md-3 col-xs-6">
-            <p class="main-character-name"><a href="#main">Syndrael</a></p>
-            <div><p>Gold: </p><span>0</span></div>
-            <div><p>Exp: </p><span>0</span></div>
+            <p id="syndrael" class="main-character-name"><a href="#main">Syndrael</a></p>
+            <div><p>Gold: </p><span>{{syndraelGold}}</span></div>
+            <div><p>Exp: </p><span>{{syndraelExp}}</span></div>
         </div>
     </div>
 </main>
+</div>

@@ -167,6 +167,11 @@ router.post('/makeTables', function(req, res){
 
         });
 
+        client.query("ALTER TABLE " + team + gamenumber + "_equip ADD COLUMN equip_id serial",
+        function(err){
+            if (err) console.log(err);
+        });
+
         client.query("ALTER TABLE " + team + gamenumber + "_equip ADD CONSTRAINT " + team + gamenumber + "_equip_pkey PRIMARY KEY (equip_id)",
         function(err){
             if (err) console.log(err);

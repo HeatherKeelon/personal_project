@@ -34,6 +34,10 @@ myApp.factory('GoldFactory', ["$http", function($http){
 
         goldData: function(team, game, character){
             return getGold(team, game, character);
+        },
+
+        giveGold: function(){
+            return gold;
         }
 
 

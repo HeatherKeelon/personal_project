@@ -1,7 +1,23 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.wrapper-div {
+    text-align: center;
+}
+
 .btn{
     border: 1px solid black;
+    background-color: #b9c2d5;
 }
 
 .btn-box {
     margin-bottom: 20px;
+    color: white;
+}
+
+.game-box {
+    margin-bottom: 20px;
+    vertial-align: bottom;
+
 }

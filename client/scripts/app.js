@@ -1,12 +1,14 @@
 var myApp = angular.module("myApp", ['ngRoute']);
 
-myApp.controller('GameController', ['$scope', '$http', '$location', function($scope, $http, $location){
-
+myApp.controller('GameController', ['$scope', '$http', 'GoldFactory', 'ExperienceFactory', function($scope, $http, GoldFactory, ExperienceFactory){
+    $scope.goldFactory=GoldFactory;
+    $scope.expFactory=ExperienceFactory;
     $scope.user = {};
     $scope.team_id;
     $scope.username = {};
     $scope.currentGame=[];
     $scope.numberGames=$scope.currentGame.length;
+    $scope.character='Syndrael';
 
 
 
@@ -17,6 +19,23 @@ myApp.controller('GameController', ['$scope', '$http', '$location', function($sc
         console.log(document.cookie);
     };
 
+    $scope.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0){
+                $scope.cookie=c.substring(name.length,c.length);
+                console.log("Cookie inside getCookie", $scope.cookie);
+                return $scope.cookie;
+            }
+
+        }
+        return "";
+    };
+    $scope.getCookie('game');
+
 
     $scope.getTeam = function(){
         //console.log("you are in getTeam");
@@ -24,10 +43,20 @@ myApp.controller('GameController', ['$scope', '$http', '$location', function($sc
             //console.log(response.data['team_name']);
             $scope.user = response.data['team_name'];
             $scope.username = response.data['username'];
-            //console.log($scope.user);
-            //console.log("This is username", $scope.username);
+            console.log("User", $scope.user);
+            console.log("Game", $scope.cookie);
+            $scope.goldFactory.goldData($scope.user, $scope.cookie, $scope.character);
+            $scope.expFactory.expData($scope.user, $scope.cookie, $scope.character);
+            console.log("This is username", $scope.username);
+
         });
     };
+
+    console.log("cookie", $scope.cookie);
+    console.log("user", $scope.user);
+    console.log("character", $scope.character);
+    //$scope.goldFactory.goldData($scope.user, $scope.cookie, $scope.character);
+
 
 
     $scope.refreshGames = function(){
@@ -88,12 +117,21 @@ myApp.controller('GameController', ['$scope', '$http', '$location', function($sc
 
 
 
-myApp.controller('ActsController', ['$scope', '$http', 'TeamAndGame', '$location', function($scope, $http, TeamAndGame, $location){
+myApp.controller('ActsController', ['$scope', '$http', 'TeamAndGame', 'GoldFactory', 'ExperienceFactory', '$location', '$route', function($scope, $http, TeamAndGame, GoldFactory, ExperienceFactory, $location, $route){
 
     $scope.user;
     $scope.cookie;
     $scope.teamAndGame = TeamAndGame;
+    $scope.goldFactory = GoldFactory;
+    $scope.expFactory = ExperienceFactory;
+    $scope.character = 'Syndrael';
+    $scope.syndraelGold;
+    $scope.syndraelExp;
 
+
+    $scope.syndraelGold=$scope.goldFactory.giveGold();
+    $scope.syndraelExp=$scope.expFactory.giveExp();
+    console.log("This is syndraelGold", $scope.syndraelGold);
 
     $scope.getCookie = function (cname) {
         var name = cname + "=";
@@ -129,27 +167,52 @@ myApp.controller('ActsController', ['$scope', '$http', 'TeamAndGame', '$location
 
     };
 
+    //$scope.actStatus = function(act){
+    //    $http.get('/acts/actStatus', {params:{"team": $scope.user, "game": $scope.cookie, "act":act}}).then(function(){
+    //        if(response.data==true){
+    //            $scope.item.isyellow=false;
+    //        }
+    //    });
+    //};
+
+    $scope.firstBloodHeroes = function(){
+        $scope.expFactory.postExp($scope.user, $scope.cookie, $scope.character, '1');
+        $scope.syndraelExp=$scope.expFactory.giveExp();
+        console.log("This is experience coming in from the factory", $scope.expFactory.giveExp());
+        console.log("This is her experience", $scope.syndraelExp);
+        $route.reload();
+
+        return $scope.syndraelExp;
+    };
+
+    $scope.fatgoblinHeroes = function(){
+        $scope.expFactory.postExp($scope.user, $scope.cookie, $scope.character, '1');
+        $scope.syndraelExp=$scope.expFactory.giveExp();
+        console.log("This is experience after fatgoblin", $scope.syndraelExp);
+
+        $scope.syndraelGold = Number($scope.syndraelGold) + 25;
+        console.log("This is syndraelGold", $scope.syndraelGold);
+
+        $scope.goldFactory.postGold($scope.user, $scope.cookie, $scope.character, $scope.syndraelGold);
+
+        //$route.reload();
+
+        return $scope.syndraelExp;
+    };
+
+    $scope.monstersHoardHeroes = function(){
+        $scope.expFactory.postExp($scope.user, $scope.cookie, $scope.character, '1');
+        $scope.syndraelExp=$scope.expFactory.giveExp();
+        console.log("This is experience after fatgoblin", $scope.syndraelExp);
+
+        $http.post('/acts/postNewEquip', {params:{"team": $scope.user, "game": $scope.cookie, "equip": 'True Shot', "type": '2', "description": '+3 Range  Bolt: Move the target 1 space.  Bolt: +2 damage.', "cost": '0', "sale_cost": '0', 'dice': 'blue, red, yellow', "exhaust": false, "equipped": false, category: "Bow"}}).then(function(){
+            console.log("equipment posted");
+        });
+    };
 
 
     $scope.getTeam();
 
-
-    //$scope.getUser = function (cname) {
-    //    var name = cname + "=";
-    //    var ca = document.cookie.split(';');
-    //    for(var i=0; i<ca.length; i++) {
-    //        var c = ca[i];
-    //        while (c.charAt(0)==' ') c = c.substring(1);
-    //        if (c.indexOf(name) == 0){
-    //            $scope.user=c.substring(name.length,c.length);
-    //            return $scope.user;
-    //        }
-    //
-    //    }
-    //    return "";
-    //};
-    //
-    //$scope.getUser('user');
 
     console.log("games", $scope.cookie);
     console.log("user at end of controller", $scope.user);
@@ -429,7 +492,6 @@ myApp.controller('MainCharacterController', ['$scope', 'TeamAndGame', '$http', '
         console.log("This is equippeddata", $scope.equippeddata);
         for (var i= 0; i<$scope.equippeddata.length; i++){
 
-        //you stopped at if statement
             if ($scope.equippeddata[i].name == equipname) {
                 console.log("you are in if statement");
                 $scope.currentequipment.name = $scope.equippeddata[i].name;
@@ -592,7 +654,12 @@ myApp.controller('EquipmentController', ['$scope', '$http', 'TeamAndGame', 'Equi
                 if(type + weapontotal >2) {
                     alert("You cannot carry another weapon. Unequip one of your current weapons.");
                 } else{
-                    $scope.equipFactory.updateEquip($scope.user, $scope.game, $scope.character, $scope.name, $scope.equipid, 'two_hand');
+                    if($scope.equipFactory.getEquip().syndraelbh == 'none'){
+                        $scope.equipFactory.updateEquip($scope.user, $scope.game, $scope.character, $scope.name, $scope.equipid, 'two_hand');
+                    }else {
+                        alert("You already have a weapon equipped.");
+                    }
+
                 }
 
                 break;
@@ -804,6 +871,7 @@ myApp.controller('CarryEquipmentController', ['$scope', '$http', 'TeamAndGame', 
 
     $scope.loadCarryEquip = function(){
         $scope.carryEquip=$scope.equipFactory.currentData();
+        console.log("This is from factory equip", $scope.equipFactory.currentData());
         console.log("THIS IS SELECTED EQUIP", $scope.carryEquip);
         $scope.carrydescription = $scope.carryEquip.description;
         $scope.carryname = $scope.carryEquip.name;
@@ -829,6 +897,7 @@ myApp.controller('CarryEquipmentController', ['$scope', '$http', 'TeamAndGame', 
         console.log("Unequip function");
         var call = $scope.equipFactory.allEquip($scope.user, $scope.game, $scope.character);
         console.log("call", call);
+        console.log("scope.carryname", $scope.carryname);
 
         switch ($scope.carryname) {
             case ($scope.carryname=call.syndraelrh):

@@ -79,7 +79,7 @@ myApp.factory('EquipFactory', ["$http", function($http){
                     item.push(parseInt(response.data[i].type));
                 }else if(response.data[i].name == response.data[i].left_hand){
                     item.push(parseInt(response.data[i].type));
-                }else if(response.data[i].name == responsde.data[i].two_hand){
+                }else if(response.data[i].name == response.data[i].two_hand){
                     item.push(parseInt(response.data[i].type));
                 }
 

@@ -39,6 +39,43 @@ router.get('/getGold', function(req, res){
 
 });
 
+router.get('/getExperience', function(req, res){
+    var team= req.query.team;
+    var game= req.query.game;
+    var character = req.query.character;
+    pg.connect(connectionString, function(err, client){
+        var experience;
+        client.query("SELECT exp FROM " + team + game + "_characters WHERE character_name=$1",
+            [character],
+            function(err, response){
+                experience=(response.rows[0].exp);
+                client.end();
+                res.send(experience);
+            });
+
+    });
+
+});
+
+//router.get('/actStatus', function(req, res){
+//    var team=req.query.team;
+//    console.log("team", team);
+//    var game=req.query.game;
+//    console.log("game", game);
+//    var act=req.query.act;
+//    console.log("act", act);
+//    var complete;
+//
+//    pg.connect(connectionString, function(err, client){
+//        client.query("SELECT " + act + "FROM " + team + game + "_campaigns",
+//        function(err, response){
+//            complete=(response.rows[0].act);
+//            client.end();
+//            res.send(complete);
+//        });
+//    });
+//});
+
 router.post('/updateGold', function(req, res){
     var team = req.body['params']['team'];
     var character = req.body['params']['character'];
@@ -54,6 +91,59 @@ router.post('/updateGold', function(req, res){
         });
     });
     res.send(gold);
+});
+
+router.post('/postNewEquip', function(req, res){
+    var team = req.body['params']['team'];
+    console.log("This is team", team);
+    var game = req.body['params']['game'];
+    console.log("This is game", game);
+    var equip = req.body['params']['equip'];
+    console.log("This is equip", equip);
+    var type = req.body['params']['type'];
+    console.log("This is type", type);
+    var description = req.body['params']['description'];
+    console.log("This is description", description);
+    var cost = req.body['params']['cost'];
+    console.log("This is cost", cost);
+    var sale_cost = req.body['params']['sale_cost'];
+    console.log("This is sale_cost", sale_cost);
+    var dice = req.body['params']['dice'];
+    console.log("This is dice", dice);
+    var exhaust = req.body['params']['exhaust'];
+    var equipped = req.body['params']['equipped'];
+    console.log("This is equipped", equipped);
+    console.log("This is exhaust", exhaust);
+    var category = req.body['params']['category'];
+    console.log("This is category", category);
+
+    pg.connect(connectionString, function(err, client){
+        client.query("INSERT INTO " + team + game + "_equip " +
+        "(name, type, description, character, cost, sale_cost, dice, exhaust, equipped, category) " +
+        "VALUES ($1, $2, $3, 'none', $4, $5, $6, $7, $8, $9)",
+            [equip, type, description, cost, sale_cost, dice, exhaust, equipped, category],
+        function(err){
+            if (err) console.log(err);
+            client.end();
+        });
+    });
+});
+
+router.post('/updateExperience', function(req, res){
+    var team = req.body['params']['team'];
+    var character = req.body['params']['character'];
+    var game = req.body['params']['game'];
+    var exp = req.body['params']['exp'];
+
+    pg.connect(connectionString, function(err, client){
+        client.query("UPDATE " + team + game + "_characters SET exp=$1 WHERE character_name=$2",
+            [exp, character],
+            function(err){
+                if (err) console.log(err);
+                client.end();
+            });
+    });
+    res.send(exp);
 });
 
 
